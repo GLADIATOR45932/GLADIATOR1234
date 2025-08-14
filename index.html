@@ -16,7 +16,9 @@
     --soft:#111119;
   }
   *{box-sizing:border-box}
-  html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:ui-rounded,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif}
+  html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif}
+
+  /* Ambient blobs */
   body::before, body::after{
     content:""; position:fixed; z-index:0; width:44vmin; height:44vmin;
     background:
@@ -28,6 +30,7 @@
   body::after{ bottom:-12vmin; right:-10vmin; animation-direction:reverse }
   @keyframes arc{ to{ transform:rotate(360deg)} }
 
+  /* Shell */
   .app{ position:relative; min-height:100%; padding:88px 16px 90px; isolation:isolate; }
   header{
     position:fixed; top:0; left:0; right:0; height:72px; z-index:10;
@@ -46,15 +49,16 @@
   .icon-btn.active{ outline:2px solid rgba(255,47,74,.55); box-shadow:0 0 0 6px rgba(255,47,74,.08) inset }
   .icon{ width:26px; height:26px; fill:none; stroke:#ff4b63; stroke-width:2.2 }
 
+  /* Sections */
   section{ display:none }
   section.active{ display:block }
   .grid{ display:grid; gap:18px; max-width:980px; margin:0 auto }
   .cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px }
-  .card{ background:linear-gradient(180deg,#151522,#11111a); border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow: 0 8px 30px rgba(0,0,0,.3), inset 0 0 0 1px rgba(255,47,74,.05) }
+  .card{ background:linear-gradient(180deg,#151522,#11111a); border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,.3), inset 0 0 0 1px rgba(255,47,74,.05) }
   .card-body{ padding:14px 14px 16px }
   .title{ font-weight:900; letter-spacing:.08em; font-size:18px; text-align:center }
   .muted{ color:var(--muted); font-size:13px; margin-top:6px; text-align:center }
-  .row{ display:flex; gap:10px; align-items:center; justify-content:center; margin-top:12px }
+  .row{ display:flex; gap:10px; align-items:center; margin-top:12px; justify-content:center }
   .btn{
     padding:10px 14px; border-radius:12px; border:1px solid var(--line);
     background:linear-gradient(180deg,#1a1a28,#131320); color:#fff; font-weight:800; letter-spacing:.06em;
@@ -63,47 +67,59 @@
   .btn.red{ background:linear-gradient(180deg,#ff2347,#e41836); border-color:#c20f29; box-shadow:0 4px 18px rgba(255,35,71,.35) }
   .btn:active{ transform:translateY(1px) }
 
-  .thumbName{ height:140px; display:grid; place-items:center; border-bottom:1px solid var(--line); background:#0f0f16 }
-  .g-name{ font: 900 22px/1.2 "Segoe UI",system-ui; letter-spacing:.18em; color:#ff304b; text-shadow:0 0 18px rgba(255,50,80,.45); text-align:center }
+  /* Game thumbs (name only) */
+  .thumbName{
+    height:140px; display:grid; place-items:center; border-bottom:1px solid var(--line); background:#0f0f16
+  }
+  .g-name{ font: 900 20px/1.2 "Segoe UI", system-ui; letter-spacing:.18em; color:#ff304b; text-shadow:0 0 18px rgba(255,50,80,.45); text-align:center }
 
+  /* Modal (shared) */
   .modal{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:18px; z-index:20; background:rgba(0,0,0,.55) }
   .modal.show{ display:flex }
   .sheet{ width:min(760px,96vw); background:linear-gradient(180deg,#151521,#101018); border:1px solid var(--line); border-radius:18px; overflow:hidden }
   .sheet .hd{ display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--line) }
   .sheet .bd{ padding:16px }
   .x{ background:#191927; border:1px solid var(--line); color:#fff; border-radius:10px; padding:8px 12px; cursor:pointer }
+
   .fld{ display:grid; gap:8px; margin:10px 0 }
   .fld label{ font-size:13px; color:var(--muted) }
-  .inp,.txt,.inp-num,select{ width:100%; background:#10101a; color:#fff; border:1px solid var(--line); padding:12px; border-radius:12px }
+  .inp,.txt,.inp-num{ width:100%; background:#10101a; color:#fff; border:1px solid var(--line); padding:12px; border-radius:12px }
   .txt{ min-height:90px; resize:vertical }
   .two{ display:grid; grid-template-columns:1fr 1fr; gap:10px }
   .note{ color:var(--muted); font-size:12px }
 
-  /* Floating bubbles (right-bottom) */
+  /* Floating action bubbles (AI, Music) — bottom-right */
   .fab{
     position:fixed; right:16px; z-index:9; width:64px; height:64px; border-radius:50%;
     border:1px solid var(--line); background:radial-gradient(circle at 30% 30%, rgba(255,47,74,.18), #12121c 60%);
     display:grid; place-items:center; cursor:pointer; box-shadow:0 10px 28px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,47,74,.08)
   }
   .fab svg{ width:30px; height:30px; stroke:#ff4b63; fill:none; stroke-width:2.2 }
-  .fab.ai{ bottom:96px }
-  .fab.music{ bottom:20px }
+  .fab.ai{ bottom: 88px }
+  .fab.music{ bottom: 16px }
 
-  /* Left-bottom: Background Sound control */
-  .fab-left{
-    position:fixed; left:16px; bottom:20px; z-index:9; width:auto; max-width:92vw;
-    background:linear-gradient(180deg,#151521,#101018); border:1px solid var(--line); border-radius:16px; padding:10px; display:grid; gap:10px;
-    box-shadow:0 10px 28px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,47,74,.05)
+  /* Background audio mini-panel — bottom-left */
+  .bgctl{
+    position:fixed; left:16px; bottom:16px; z-index:9;
+    display:flex; align-items:center; gap:8px;
+    padding:8px 12px; border-radius:14px; border:1px solid var(--line);
+    background:linear-gradient(180deg,#12121c,#0d0d14);
+    box-shadow:0 10px 28px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,47,74,.06);
   }
-  .fab-left .bar{ display:flex; flex-wrap:wrap; gap:8px; align-items:center }
-  .fab-left .chip{ padding:6px 10px; background:#171729; border:1px solid var(--line); border-radius:999px; font-size:12px; color:var(--muted) }
-  .fab-left .mini{ display:flex; gap:8px; align-items:center }
-  .vol{ width:140px }
+  .mini-btn{
+    width:36px; height:36px; border-radius:10px; border:1px solid var(--line);
+    background:#171726; display:grid; place-items:center; cursor:pointer
+  }
+  .mini-btn svg{ width:20px; height:20px; stroke:#ff4b63; fill:none; stroke-width:2 }
+  .bgtitle{ font-size:12px; color:var(--muted); max-width:160px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+  .bgvol{ width:120px }
 
+  /* Footer socials */
   footer{ position:fixed; bottom:0; left:0; right:0; height:72px; display:flex; align-items:center; justify-content:center; gap:14px; border-top:1px solid var(--line); background:linear-gradient(180deg,#0f0f16,#0b0b11); z-index:8 }
   .link{ display:flex; gap:8px; align-items:center; padding:8px 12px; border-radius:999px; border:1px solid var(--line); background:#12121c; color:#fff; text-decoration:none; font-size:13px }
   .dot{ width:10px; height:10px; border-radius:50%; background:var(--red); box-shadow:0 0 10px rgba(255,47,74,.9) }
 
+  /* Splash */
   .splash{ position:fixed; inset:0; display:grid; place-items:center; background:radial-gradient(1200px 700px at 50% 80%, rgba(255,47,74,.08), transparent), #0a0a0e; z-index:30 }
   .sp-title{ font-size:36px; font-weight:900; letter-spacing:.25em; color:#ff304b; text-shadow:0 0 20px rgba(255,50,80,.55) }
   .spinner{ margin-top:14px; width:62px; height:62px; border-radius:50%; border:3px solid rgba(255,47,74,.35); border-top-color:#ff2f4a; animation:spin 1.1s linear infinite }
@@ -112,7 +128,8 @@
   @media (max-width:540px){
     .thumbName{ height:120px }
     .g-name{ font-size:18px }
-    .vol{ width:110px }
+    .bgtitle{ max-width:110px }
+    .bgvol{ width:90px }
   }
 </style>
 </head>
@@ -121,7 +138,7 @@
 <!-- Splash -->
 <div class="splash" id="splash">
   <div style="text-align:center">
-    <div class="sp-title">HELLO SPARTAN</div>
+    <div class="sp-title">hello spartan</div>
     <div class="spinner"></div>
   </div>
 </div>
@@ -146,7 +163,7 @@
   </div>
 </header>
 
-<!-- Right-bottom floating bubbles -->
+<!-- Floating bubbles (bottom-right) -->
 <button class="fab ai" id="fabAI" title="AI">
   <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M8 12h8M12 8v8"/></svg>
 </button>
@@ -154,22 +171,16 @@
   <svg viewBox="0 0 24 24"><path d="M9 18a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM15 6v10a3 3 0 1 0 2 2V8l4-1V5l-6 1z"/></svg>
 </button>
 
-<!-- Left-bottom Background Sound panel -->
-<div class="fab-left" id="bgPanel">
-  <div class="bar">
-    <span class="chip">Background Sound</span>
-    <div class="mini">
-      <button class="btn" id="bgToggle">Play</button>
-      <button class="btn" id="bgMute">Mute</button>
-      <input type="range" min="0" max="1" step="0.01" class="vol" id="bgVol">
-    </div>
-  </div>
-  <div class="bar" id="bgAdminRow" style="display:none">
-    <select id="bgSelect"></select>
-    <button class="btn red" id="bgApply">Set as Background</button>
-    <div class="note">Only admin can change the background track.</div>
-  </div>
-  <div class="note" id="bgNow">No background selected.</div>
+<!-- Background audio control (bottom-left) -->
+<div class="bgctl" id="bgCtl">
+  <button class="mini-btn" id="bgToggle" title="Play/Pause">
+    <svg viewBox="0 0 24 24" id="bgToggleIcon"><path d="M8 5v14M16 5v14"/></svg>
+  </button>
+  <button class="mini-btn" id="bgMute" title="Mute/Unmute">
+    <svg viewBox="0 0 24 24" id="bgMuteIcon"><path d="M4 10v4h4l5 4V6l-5 4H4z"/></svg>
+  </button>
+  <input id="bgVol" class="bgvol" type="range" min="0" max="100" value="50" />
+  <div class="bgtitle" id="bgTitle">No background</div>
 </div>
 
 <div class="app">
@@ -211,7 +222,7 @@
       </div>
 
       <div class="row" id="videoNoticeRow" style="display:none">
-        <div class="muted">New videos posted • Choose a platform:</div>
+        <div class="muted">Gladiator posted new videos • Choose a platform:</div>
         <a class="link" id="ytLink" target="_blank"><span class="dot"></span><span id="ytName">YouTube</span></a>
         <a class="link" id="igLink" target="_blank"><span class="dot"></span><span id="igName">Instagram</span></a>
         <a class="link" id="tkLink" target="_blank"><span class="dot"></span><span id="tkName">TikTok</span></a>
@@ -260,7 +271,7 @@
           <div class="fld"><label>Display name</label><input id="accName" class="inp" placeholder="Your gamer name"></div>
         </div>
 
-        <!-- Hidden admin step -->
+        <!-- Hidden admin step (only for the admin phone) -->
         <div id="adminStep" style="display:none">
           <div class="fld"><label>Special key</label><input id="adminSecret" class="inp" placeholder="••••••"></div>
           <div class="fld"><label>Create your admin pass (any text)</label><input id="adminPass" class="inp" placeholder="Set your private pass"></div>
@@ -286,18 +297,15 @@
             <div class="fld"><label>TikTok name</label><input id="tkNameInp" class="inp" placeholder="TikTok"></div>
             <div class="fld"><label>TikTok link</label><input id="tkLinkInp" class="inp" placeholder="https://..."></div>
           </div>
+          <div class="row"><button class="btn red" onclick="postVideos()">Post videos notice</button><div class="note">Shows notice on Home.</div></div>
 
-          <!-- Admin in-game identity (editable) -->
-          <div class="two" style="margin-top:6px">
-            <div class="fld"><label>Admin In‑Game Name</label><input id="admGameNameInp" class="inp" placeholder="Gladiator"></div>
-            <div class="fld"><label>Admin Numeric ID</label><input id="admGameIDInp" class="inp" placeholder="88442211"></div>
-          </div>
+          <div class="title" style="font-size:16px; margin-top:16px">Upload Music</div>
+          <div class="fld"><label>Select audio</label><input id="musicFile" type="file" accept="audio/*"></div>
+          <div class="row"><button class="btn" onclick="addMusic()">Upload</button><div class="note">Admin-only. Local playback.</div></div>
 
-          <div class="row"><button class="btn red" onclick="saveAdmin()">Save settings</button></div>
+          <div class="title" style="font-size:16px; margin-top:16px">Background Music (choose from uploaded)</div>
+          <div id="bgAdminInfo" class="note" style="margin-bottom:8px">No background selected.</div>
 
-          <div class="title" style="font-size:16px; margin-top:12px">Upload Music</div>
-          <div class="fld"><label>Select audio</label><input id="musicFile" type="file" accept="audio/*" multiple></div>
-          <div class="row"><button class="btn" onclick="addMusic()">Upload</button><div class="note">Admin-only. Saved permanently in your browser.</div></div>
           <div id="musicList" class="grid" style="gap:10px; margin-top:10px"></div>
         </div>
       </div></div>
@@ -317,12 +325,12 @@
   <div class="bd">
     <div class="two">
       <div>
-        <div class="fld"><label>Admin In‑Game Name</label><input class="inp" id="adminGameName" readonly></div>
-        <div class="fld"><label>Admin Numeric ID</label><input class="inp" id="adminGameID" readonly></div>
+        <div class="fld"><label>Admin In‑Game Name</label><input class="inp" id="adminGameName" value="KAIser" readonly></div>
+        <div class="fld"><label>Admin Numeric ID</label><input class="inp" id="adminGameID" value="7180335104769130497" readonly></div>
       </div>
       <div>
         <div class="fld"><label>Your In‑Game Name</label><input class="inp" id="yourGameName" placeholder="Your nickname"></div>
-        <div class="fld"><label>Your Numeric ID</label><input class="inp" id="yourGameID" placeholder="12345678"></div>
+        <div class="fld"><label>Your Numeric ID</label><input class="inp" id="yourGameID" placeholder="12345678"></input></div>
       </div>
     </div>
     <div class="fld"><label>Message to Admin</label><textarea class="txt" id="yourMsg" placeholder="Let’s play? Mode, time…"></textarea></div>
@@ -334,92 +342,83 @@
 <div class="modal" id="aiModal"><div class="sheet">
   <div class="hd"><div class="title">AI Assistant</div><button class="x" onclick="toggleAI(false)">Close</button></div>
   <div class="bd">
-    <p class="muted">فارسی و انگلیسی — مثال: «ویکی پدیا: علی دایی» یا “wiki: PlayStation”.</p>
-    <div class="fld"><label>Your message</label><textarea id="aiIn" class="txt" placeholder="سلام! امروز چه خبر؟ / Hi!"></textarea></div>
+    <p class="muted">Speaks English & Persian — try: “wiki: PlayStation” یا «ویکی: علی دایی».</p>
+    <div class="fld"><label>Your message</label><textarea id="aiIn" class="txt" placeholder="Say hi or ask a question..."></textarea></div>
     <div class="row"><button class="btn red" onclick="askAI()">Send</button><button class="btn" onclick="clearAI()">Clear</button></div>
     <div id="aiOut" class="grid" style="gap:10px; margin-top:10px"></div>
   </div>
 </div></div>
 
-<!-- Music Modal (public player) -->
+<!-- Music Modal -->
 <div class="modal" id="musicModal"><div class="sheet">
   <div class="hd"><div class="title">Music</div><button class="x" onclick="toggleMusic(false)">Close</button></div>
   <div class="bd">
-    <p class="muted">Sign in to listen. Only admin can upload/delete.</p>
+    <p class="muted">Sign in to listen. Only admin can upload/delete. Anyone can download.</p>
     <div id="musicPublic" class="grid" style="gap:10px"></div>
   </div>
 </div></div>
 
 <script>
-/* ================== Constants & State ================== */
+/* ========= Constants & State ========= */
 const ADMIN_PHONE = "09114392359";
-const SECRET_VORTEX = "vortex"; // hidden, never displayed
+const SECRET_VORTEX = "vortex"; // never shown in UI
 
 const st = {
-  user:null, otp:null, admin:false, adminPass:null,
+  user:null, otp:null,
+  admin:false, adminPass:null,
   socials:{ ytName:"YouTube", ytLink:"#", igName:"Instagram", igLink:"#", tkName:"TikTok", tkLink:"#"},
   inbox:[],
-  music:[],          // [{id, name, url(ObjectURL)}] — from DB at runtime
+  music:[],
   posted:false,
-  adminGameName:"Gladiator",
-  adminGameID:"88442211",
-  bg:{ trackId:null, muted:false, volume:0.6, playing:false }
+  bg:{ name:null, url:null, volume:0.5, muted:false } // background music
 };
-
-/* ================== LocalStorage load/save ================== */
-(function loadLS(){
+(function load(){
   try{
     const u=localStorage.getItem("glad_user"); if(u) st.user=JSON.parse(u);
     const s=localStorage.getItem("glad_socials"); if(s) st.socials=JSON.parse(s);
     const i=localStorage.getItem("glad_inbox"); if(i) st.inbox=JSON.parse(i);
+    const m=localStorage.getItem("glad_music"); if(m) st.music=JSON.parse(m);
     const a=localStorage.getItem("glad_admin"); if(a){ const o=JSON.parse(a); st.admin=o.admin; st.adminPass=o.pass||null; }
-    const g=localStorage.getItem("glad_admin_game"); if(g){ const o=JSON.parse(g); st.adminGameName=o.name||st.adminGameName; st.adminGameID=o.id||st.adminGameID; }
-    const p=localStorage.getItem("glad_flags"); if(p){ const o=JSON.parse(p); st.posted=!!o.posted; }
-    const b=localStorage.getItem("glad_bg"); if(b){ const o=JSON.parse(b); st.bg={...st.bg, ...o}; }
+    const b=localStorage.getItem("glad_bg"); if(b) st.bg=JSON.parse(b);
   }catch(e){}
 })();
 
-function saveSocials(){ localStorage.setItem("glad_socials", JSON.stringify(st.socials)); }
-function saveAdminGame(){ localStorage.setItem("glad_admin_game", JSON.stringify({name:st.adminGameName,id:st.adminGameID})); }
-function saveFlags(){ localStorage.setItem("glad_flags", JSON.stringify({posted:st.posted})); }
-function saveBG(){ localStorage.setItem("glad_bg", JSON.stringify(st.bg)); }
-
-/* ================== UI: Tabs & Splash ================== */
+/* ========= Tabs ========= */
 const tabs=["home","about","contact","account"];
 function setTab(id){
-  tabs.forEach(t=>{ document.getElementById(t).classList.remove("active"); document.querySelector(`[data-tab="${t}"]`).classList.remove("active"); });
-  document.getElementById(id).classList.add("active");
+  tabs.forEach(t=>{ const sec=document.getElementById(t); if(sec) sec.classList.remove("active");
+    const b=document.querySelector(`[data-tab="${t}"]`); if(b) b.classList.remove("active"); });
+  const sec=document.getElementById(id); if(sec) sec.classList.add("active");
   const btn=document.querySelector(`[data-tab="${id}"]`); if(btn) btn.classList.add("active");
 }
 document.querySelectorAll(".icon-btn").forEach(b=> b.addEventListener("click",()=>setTab(b.dataset.tab)));
 setTab("home");
-setTimeout(()=>{ document.getElementById("splash").style.display="none"; }, 900);
 
-/* ================== Socials & Notice ================== */
+/* ========= Splash ========= */
+setTimeout(()=>{ document.getElementById("splash").style.display="none"; },1000);
+
+/* ========= Socials ========= */
 function refreshSocials(){
-  document.getElementById("ytName").textContent=st.socials.ytName;
-  document.getElementById("igName").textContent=st.socials.igName;
-  document.getElementById("tkName").textContent=st.socials.tkName;
-  document.getElementById("ytLink").href=st.socials.ytLink||"#";
-  document.getElementById("igLink").href=st.socials.igLink||"#";
-  document.getElementById("tkLink").href=st.socials.tkLink||"#";
-  document.getElementById("ytNameFoot").textContent=st.socials.ytName;
-  document.getElementById("igNameFoot").textContent=st.socials.igName;
-  document.getElementById("tkNameFoot").textContent=st.socials.tkName;
-  document.getElementById("ytLinkFoot").href=st.socials.ytLink||"#";
-  document.getElementById("igLinkFoot").href=st.socials.igLink||"#";
-  document.getElementById("tkLinkFoot").href=st.socials.tkLink||"#";
+  const map = [
+    {k:"yt", name:"ytName", link:"ytLink"},
+    {k:"ig", name:"igName", link:"igLink"},
+    {k:"tk", name:"tkName", link:"tkLink"},
+  ];
+  map.forEach(({k,name,link})=>{
+    const nVal = st.socials[name] || "";
+    const lVal = st.socials[link] || "#";
+    const nEl = document.getElementById(name); if(nEl) nEl.textContent = nVal;
+    const lEl = document.getElementById(link); if(lEl) lEl.href = lVal;
+    const nFoot = document.getElementById(name+"Foot"); if(nFoot) nFoot.textContent = nVal;
+    const lFoot = document.getElementById(link+"Foot"); if(lFoot) lFoot.href = lVal;
+  });
   document.getElementById("videoNoticeRow").style.display = st.posted ? "flex" : "none";
 }
 refreshSocials();
 
-/* ================== Game Modal — use editable admin name/ID ================== */
-function loadAdminIdentityIntoModal(){
-  document.getElementById("adminGameName").value=st.adminGameName;
-  document.getElementById("adminGameID").value=st.adminGameID;
-}
+/* ========= Games ========= */
 let currentGame=null;
-function openGame(n){ currentGame=n; document.getElementById("gameTitle").textContent=n; loadAdminIdentityIntoModal(); document.getElementById("gameModal").classList.add("show"); document.getElementById("gameNote").textContent=""; }
+function openGame(n){ currentGame=n; document.getElementById("gameTitle").textContent=n; document.getElementById("gameModal").classList.add("show"); document.getElementById("gameNote").textContent=""; }
 function closeGame(){ document.getElementById("gameModal").classList.remove("show"); currentGame=null; }
 function shareGame(n){ alert("Share: "+n); }
 function requestPlay(){
@@ -433,7 +432,7 @@ function requestPlay(){
   document.getElementById("gameNote").textContent="Request sent.";
 }
 
-/* ================== Contact / Inbox ================== */
+/* ========= Contact ========= */
 function sendMessage(){
   const subj=document.getElementById("msgSubj").value.trim();
   const body=document.getElementById("msgBody").value.trim();
@@ -445,25 +444,26 @@ function sendMessage(){
   document.getElementById("msgNote").textContent="Message sent.";
 }
 function renderInbox(){
-  const box=document.getElementById("inbox"); box.innerHTML="";
+  const box=document.getElementById("inbox"); if(!box) return; box.innerHTML="";
   st.inbox.forEach(m=>{
     const d=new Date(m.ts);
     const el=document.createElement("div"); el.className="card"; el.innerHTML=`<div class="card-body">
-      <div style="font-weight:800; text-align:center">${m.subj}</div>
+      <div style="font-weight:800">${m.subj}</div>
       <div class="muted">${d.toLocaleString()} • From: ${m.from} (${m.phone})</div>
-      <div style="margin-top:6px; text-align:center">${m.body}</div></div>`;
+      <div style="margin-top:6px">${m.body}</div></div>`;
     box.appendChild(el);
   });
 }
 renderInbox();
 
-/* ================== Account & Admin secure flow ================== */
+/* ========= Account & Admin secure flow ========= */
 function sendOTP(){
   const ph=document.getElementById("accPhone").value.trim();
   if(!ph){ document.getElementById("otpSentNote").textContent="Enter phone first."; return; }
   st.otp=(Math.floor(1000+Math.random()*9000)).toString();
   document.getElementById("otpSentNote").textContent="Test OTP (demo): "+st.otp;
-  document.getElementById("adminStep").style.display = (ph===ADMIN_PHONE) ? "block" : "none";
+  if(ph===ADMIN_PHONE) document.getElementById("adminStep").style.display="block";
+  else document.getElementById("adminStep").style.display="none";
 }
 function verifyOTP(){
   const code=document.getElementById("accOTP").value.trim();
@@ -488,23 +488,19 @@ function verifyOTP(){
     document.getElementById("igLinkInp").value=st.socials.igLink;
     document.getElementById("tkNameInp").value=st.socials.tkName;
     document.getElementById("tkLinkInp").value=st.socials.tkLink;
-    document.getElementById("admGameNameInp").value=st.adminGameName;
-    document.getElementById("admGameIDInp").value=st.adminGameID;
-    document.getElementById("bgAdminRow").style.display="flex";
   }else{
     st.admin=false; st.adminPass=null; localStorage.removeItem("glad_admin");
     document.getElementById("adminPanel").style.display="none";
     document.getElementById("adminNote").textContent="Locked. Use your phone + secret flow to unlock.";
-    document.getElementById("bgAdminRow").style.display="none";
   }
 
   st.user={name, phone}; localStorage.setItem("glad_user",JSON.stringify(st.user));
   document.getElementById("accNote").textContent= (st.admin?"Signed in as ADMIN ":"Signed in as ") + name;
   st.otp=null;
+  renderMusic(); renderMusicPublic(); renderBgAdminInfo(); updateBgUI();
 }
 
-/* Save admin settings (socials + in-game identity) */
-function saveAdmin(){
+function postVideos(){
   if(!st.admin) return;
   st.socials={
     ytName:document.getElementById("ytNameInp").value.trim()||"YouTube",
@@ -514,83 +510,52 @@ function saveAdmin(){
     tkName:document.getElementById("tkNameInp").value.trim()||"TikTok",
     tkLink:document.getElementById("tkLinkInp").value.trim()||"#"
   };
-  st.adminGameName = document.getElementById("admGameNameInp").value.trim() || "Gladiator";
-  st.adminGameID   = document.getElementById("admGameIDInp").value.trim() || "88442211";
-  saveSocials(); saveAdminGame(); refreshSocials(); loadAdminIdentityIntoModal();
-  alert("Saved.");
-}
-function postVideos(){ if(!st.admin) return; st.posted=true; saveFlags(); refreshSocials(); alert("Videos notice posted."); }
-
-/* ================== IndexedDB (persistent audio) ================== */
-let db=null;
-function idbOpen(){
-  return new Promise((resolve,reject)=>{
-    const req=indexedDB.open("gladDB",1);
-    req.onupgradeneeded=()=>{ const d=req.result;
-      if(!d.objectStoreNames.contains("music")) d.createObjectStore("music",{keyPath:"id",autoIncrement:true});
-    };
-    req.onsuccess=()=>{ db=req.result; resolve(); };
-    req.onerror=()=>reject(req.error);
-  });
-}
-function idbAddMusic(file){
-  return new Promise((resolve,reject)=>{
-    const tx=db.transaction("music","readwrite"); const store=tx.objectStore("music");
-    const data={name:file.name, type:file.type, blob:file, created:Date.now()};
-    const r=store.add(data);
-    r.onsuccess=()=>resolve(r.result);
-    r.onerror=()=>reject(r.error);
-  });
-}
-function idbDeleteMusic(id){
-  return new Promise((resolve,reject)=>{
-    const tx=db.transaction("music","readwrite"); const store=tx.objectStore("music");
-    const r=store.delete(id); r.onsuccess=()=>resolve(); r.onerror=()=>reject(r.error);
-  });
-}
-function idbGetAllMusic(){
-  return new Promise((resolve,reject)=>{
-    const tx=db.transaction("music","readonly"); const store=tx.objectStore("music");
-    const r=store.getAll(); r.onsuccess=()=>resolve(r.result||[]); r.onerror=()=>reject(r.error);
-  });
+  localStorage.setItem("glad_socials",JSON.stringify(st.socials));
+  st.posted=true; refreshSocials(); alert("Gladiator posted new videos.");
 }
 
-/* Load DB -> st.music with ObjectURLs */
-async function refreshMusicFromDB(){
-  await idbOpen();
-  const items=await idbGetAllMusic();
-  // Revoke old URLs
-  st.music.forEach(m=>{ if(m.url) URL.revokeObjectURL(m.url); });
-  st.music = items.map(x=>({id:x.id, name:x.name, type:x.type, url:URL.createObjectURL(x.blob)}));
-  renderMusic(); renderMusicPublic(); refreshBGChoices(); ensureBGSource();
-}
-
-/* ================== Music (admin list + public list) ================== */
-async function addMusic(){
+/* ========= Music (admin list + public list) ========= */
+function addMusic(){
   if(!st.admin) return;
-  const inp=document.getElementById("musicFile"); const files=[...inp.files];
-  if(files.length===0){ alert("Choose audio files."); return; }
-  await idbOpen();
-  for(const f of files){ await idbAddMusic(f); }
-  await refreshMusicFromDB();
-  inp.value="";
+  const f=document.getElementById("musicFile").files[0]; if(!f){ alert("Choose audio."); return; }
+  const url=URL.createObjectURL(f); st.music.unshift({name:f.name,url});
+  localStorage.setItem("glad_music",JSON.stringify(st.music));
+  renderMusic(); renderMusicPublic();
 }
-async function deleteMusic(idx){
+function deleteMusic(idx){
   if(!st.admin) return;
-  const item=st.music[idx]; if(!item) return;
-  await idbOpen(); await idbDeleteMusic(item.id);
-  await refreshMusicFromDB();
-  // If deleted track was background, clear it
-  if(st.bg.trackId===item.id){ st.bg.trackId=null; saveBG(); ensureBGSource(); }
+  // if deleting current bg, clear it
+  if(st.bg && st.music[idx] && st.bg.url===st.music[idx].url){ clearBackground(); }
+  st.music.splice(idx,1); localStorage.setItem("glad_music",JSON.stringify(st.music));
+  renderMusic(); renderMusicPublic(); renderBgAdminInfo();
 }
+function setBackgroundFromIndex(idx){
+  if(!st.admin) return;
+  const item=st.music[idx]; if(!item){ alert("Not found."); return; }
+  st.bg={ name:item.name, url:item.url, volume:st.bg?.volume ?? 0.5, muted:false };
+  localStorage.setItem("glad_bg", JSON.stringify(st.bg));
+  initBgAudio(true);
+  renderBgAdminInfo(); updateBgUI();
+}
+function clearBackground(){
+  st.bg={ name:null, url:null, volume:0.5, muted:false };
+  localStorage.removeItem("glad_bg");
+  if(bgAudio){ try{ bgAudio.pause(); }catch(e){} bgAudio.removeAttribute("src"); }
+  renderBgAdminInfo(); updateBgUI();
+}
+
 function renderMusic(){
   const list=document.getElementById("musicList"); if(!list) return; list.innerHTML="";
   st.music.forEach((m,i)=>{
     const div=document.createElement("div"); div.className="card";
+    const isBg = st.bg && st.bg.url===m.url;
     div.innerHTML=`<div class="card-body">
-      <div style="font-weight:800; text-align:center">${m.name}</div>
+      <div style="font-weight:800; text-align:center">${m.name}${isBg?' <span class="muted">(background)</span>':''}</div>
       <audio controls style="width:100%;margin-top:6px" src="${m.url}"></audio>
-      <div class="row"><button class="btn" onclick="deleteMusic(${i})">Delete</button></div>
+      <div class="row">
+        <button class="btn" onclick="deleteMusic(${i})">Delete</button>
+        <button class="btn red" onclick="setBackgroundFromIndex(${i})">Set as background</button>
+      </div>
     </div>`;
     list.appendChild(div);
   });
@@ -598,83 +563,37 @@ function renderMusic(){
 function renderMusicPublic(){
   const list=document.getElementById("musicPublic"); if(!list) return; list.innerHTML="";
   st.music.forEach((m)=>{
+    const isBg = st.bg && st.bg.url===m.url;
     const div=document.createElement("div"); div.className="card";
     div.innerHTML=`<div class="card-body">
-      <div style="font-weight:800; text-align:center">${m.name}</div>
+      <div style="font-weight:800; text-align:center">${m.name}${isBg?' <span class="muted">(background)</span>':''}</div>
       <audio controls style="width:100%;margin-top:6px" src="${m.url}"></audio>
-      <div class="row"><a class="btn" href="${m.url}" download="${m.name}">Download</a></div>
+      <div class="row"><a class="btn" href="${m.url}" download>Download</a></div>
     </div>`;
     list.appendChild(div);
   });
 }
-
-/* ================== Background Sound (admin-selectable, all-listenable) ================== */
-const bgAudio = new Audio(); bgAudio.loop=true; bgAudio.preload="auto";
-const bgNowEl=document.getElementById("bgNow");
-const bgSelect=document.getElementById("bgSelect");
-const bgToggle=document.getElementById("bgToggle");
-const bgMute=document.getElementById("bgMute");
-const bgVol=document.getElementById("bgVol");
-
-function refreshBGUI(){
-  bgToggle.textContent = st.bg.playing ? "Pause" : "Play";
-  bgMute.textContent   = st.bg.muted   ? "Unmute" : "Mute";
-  bgVol.value          = st.bg.volume;
-  document.getElementById("bgAdminRow").style.display = st.admin ? "flex" : "none";
-}
-function refreshBGChoices(){
-  bgSelect.innerHTML="";
-  st.music.forEach(m=>{
-    const opt=document.createElement("option");
-    opt.value=m.id; opt.textContent=m.name;
-    if(st.bg.trackId===m.id) opt.selected=true;
-    bgSelect.appendChild(opt);
-  });
-  updateBGNowLabel();
-}
-function updateBGNowLabel(){
-  const m=st.music.find(x=>x.id===st.bg.trackId);
-  bgNowEl.textContent = m ? `Now playing: ${m.name}` : "No background selected.";
-}
-function ensureBGSource(){
-  const m=st.music.find(x=>x.id===st.bg.trackId);
-  if(m){ bgAudio.src=m.url; } else { bgAudio.removeAttribute("src"); }
-  bgAudio.muted=!!st.bg.muted; bgAudio.volume=st.bg.volume;
-  updateBGNowLabel();
+function renderBgAdminInfo(){
+  const el=document.getElementById("bgAdminInfo"); if(!el) return;
+  if(st.bg && st.bg.url){
+    el.innerHTML = `Current background: <b>${st.bg.name}</b> • <button class="btn" onclick="clearBackground()">Clear background</button>`;
+  }else{
+    el.textContent = "No background selected.";
+  }
 }
 
-bgToggle.addEventListener("click", ()=>{
-  if(!bgAudio.src){ alert("No background selected."); return; }
-  if(st.bg.playing){ bgAudio.pause(); st.bg.playing=false; } else { bgAudio.play().catch(()=>{}); st.bg.playing=true; }
-  saveBG(); refreshBGUI();
-});
-bgMute.addEventListener("click", ()=>{
-  st.bg.muted=!st.bg.muted; bgAudio.muted=st.bg.muted; saveBG(); refreshBGUI();
-});
-bgVol.addEventListener("input", ()=>{
-  st.bg.volume=parseFloat(bgVol.value||"0.6"); bgAudio.volume=st.bg.volume; saveBG();
-});
-document.getElementById("bgApply").addEventListener("click", ()=>{
-  if(!st.admin) return;
-  const id=parseInt(bgSelect.value,10);
-  st.bg.trackId = isNaN(id)? null : id;
-  saveBG(); ensureBGSource();
-  if(st.bg.playing) bgAudio.play().catch(()=>{});
-  refreshBGUI();
-});
-
-/* ================== Floating bubbles -> open modals ================== */
+/* ========= Floating bubbles -> open modals ========= */
 document.getElementById("fabAI").addEventListener("click",()=>toggleAI(true));
 document.getElementById("fabMusic").addEventListener("click",()=>toggleMusic(true));
 function toggleAI(show){ document.getElementById("aiModal").classList.toggle("show", !!show); }
 function toggleMusic(show){ document.getElementById("musicModal").classList.toggle("show", !!show); }
 
-/* ================== AI (FA/EN + Wikipedia) ================== */
+/* ========= AI (Persian/English + Wikipedia) ========= */
 function clearAI(){ document.getElementById("aiIn").value=""; document.getElementById("aiOut").innerHTML=""; }
 function pushMsg(role, text){
   const out=document.getElementById("aiOut");
   const card=document.createElement("div"); card.className="card";
-  card.innerHTML=`<div class="card-body"><div style="font-weight:800">${role}</div><div style="margin-top:6px; white-space:pre-wrap">${text}</div></div>`;
+  card.innerHTML=`<div class="card-body"><div style="font-weight:800; text-align:left">${role}</div><div style="margin-top:6px; white-space:pre-wrap">${text}</div></div>`;
   out.prepend(card);
 }
 function isPersian(s){ return /[\u0600-\u06FF]/.test(s); }
@@ -684,10 +603,11 @@ async function askAI(){
   pushMsg("You", q);
 
   const s=q.toLowerCase(); const fa=isPersian(q);
-  if(/^(hi|hello|salam|سلام)\b/.test(s)||q.startsWith("سلام")){
-    pushMsg("AI", fa?"سلام! چه کمکی ازم برمیاد؟":"Hey! How can I help?");
+  if(/^(hi|hello|salam|سلام)/.test(s)||q.startsWith("سلام")){
+    pushMsg("AI", fa?"سلام! حالت چطوره؟ درباره چه بازی یا موضوعی صحبت کنیم؟":"Hey! How can I help today?");
   }
 
+  // Wikipedia: "wiki: term" or "ویکی ..."
   let term=null, lang="en";
   if(s.startsWith("wiki:")) term=q.slice(5).trim();
   if(q.startsWith("ویکی") || q.startsWith("ویکی پدیا") || q.startsWith("ویکی‌پدیا")){
@@ -717,18 +637,93 @@ async function askAI(){
   }
 
   const faAns = "اینجا هستم. موضوعت رو بگو، یا بنویس «ویکی: ...» تا خلاصه بیارم.";
-  const enAns = "I’m here. Tell me a topic or type “wiki: ...” to fetch a quick summary.";
+  const enAns = "I’m here. Tell me a topic or type “wiki: …” for a quick summary.";
   pushMsg("AI", fa?faAns:enAns);
 }
 
-/* ================== Init ================== */
-(async function init(){
-  refreshSocials();
-  loadAdminIdentityIntoModal();
-  await refreshMusicFromDB();            // loads st.music from IndexedDB
-  refreshBGChoices(); ensureBGSource();  // sets bg audio if selected
-  refreshBGUI();                         // sync controls state
-})();
+/* ========= Background audio engine ========= */
+let bgAudio = null;
+function initBgAudio(autoplay=false){
+  if(!bgAudio){
+    bgAudio = new Audio();
+    bgAudio.loop = true;
+    bgAudio.preload = "auto";
+    bgAudio.addEventListener("play", updateBgUI);
+    bgAudio.addEventListener("pause", updateBgUI);
+    bgAudio.addEventListener("volumechange", ()=>{
+      st.bg.muted = bgAudio.muted;
+      st.bg.volume = bgAudio.volume;
+      persistBg();
+      updateBgUI();
+    });
+  }
+  if(st.bg && st.bg.url){
+    bgAudio.src = st.bg.url;
+    bgAudio.volume = (st.bg.volume ?? 0.5);
+    bgAudio.muted = !!st.bg.muted;
+    if(autoplay){ safePlay(); }
+  }
+  updateBgUI();
+}
+function persistBg(){ localStorage.setItem("glad_bg", JSON.stringify(st.bg)); }
+function safePlay(){ if(!bgAudio) return; bgAudio.play().catch(()=>{/* autoplay will start after user gesture */}); }
+function toggleBgPlay(){
+  if(!st.bg || !st.bg.url){ alert("No background selected."); return; }
+  if(bgAudio.paused) safePlay(); else bgAudio.pause();
+}
+function toggleBgMute(){
+  if(!bgAudio) return;
+  bgAudio.muted = !bgAudio.muted;
+}
+function changeBgVol(v){
+  if(!bgAudio) return;
+  const vol = Math.max(0, Math.min(1, v/100));
+  bgAudio.volume = vol;
+}
+
+/* Try to (re)start audio after first user gesture if a bg is set */
+window.addEventListener("pointerdown", ()=>{ if(st.bg && st.bg.url && bgAudio && bgAudio.paused && !st.bg.muted){ safePlay(); } }, {once:false});
+
+/* ========= BG UI wiring ========= */
+document.getElementById("bgToggle").addEventListener("click", toggleBgPlay);
+document.getElementById("bgMute").addEventListener("click", toggleBgMute);
+document.getElementById("bgVol").addEventListener("input", (e)=> changeBgVol(e.target.value));
+
+function updateBgUI(){
+  const titleEl = document.getElementById("bgTitle");
+  const volEl = document.getElementById("bgVol");
+  const tglIcon = document.getElementById("bgToggleIcon");
+  const muteIcon = document.getElementById("bgMuteIcon");
+
+  const has = st.bg && st.bg.url;
+  titleEl.textContent = has ? (st.bg.name || "Background") : "No background";
+  volEl.disabled = !has;
+
+  if(bgAudio && !bgAudio.paused){
+    tglIcon.innerHTML = '<path d="M8 5v14M16 5v14"/>'; // pause icon
+  }else{
+    tglIcon.innerHTML = '<path d="M7 4l12 8-12 8z"/>'; // play icon
+  }
+  if(bgAudio && bgAudio.muted){
+    muteIcon.innerHTML = '<path d="M4 10v4h4l5 4V6l-5 4H4z"/><path d="M19 5L5 19"/>';
+  }else{
+    muteIcon.innerHTML = '<path d="M4 10v4h4l5 4V6l-5 4H4z"/>';
+  }
+  if(has){
+    if(bgAudio){ volEl.value = Math.round((bgAudio.volume ?? 0.5)*100); }
+  }else{
+    volEl.value = 50;
+  }
+}
+
+/* ========= Initial renders ========= */
+renderMusicPublic();
+renderMusic();
+renderBgAdminInfo();
+initBgAudio(false);
+
+/* ========= No numeric keyboard shortcuts ========= */
+/* (intentionally none) */
 </script>
 </body>
 </html>
