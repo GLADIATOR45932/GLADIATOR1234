@@ -17,6 +17,7 @@
     --line:#1f2030;
     --green:#34e5a6;
     --yellow:#ffd36a;
+    --tt:#00e2ff;
   }
   *{box-sizing:border-box}
   html,body{height:100%;background:var(--bg);color:var(--ink);font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif; margin:0}
@@ -36,7 +37,7 @@
   @keyframes arc{ to{ transform:rotate(360deg)} }
 
   /* Layout */
-  .app{ position:relative; min-height:100%; padding:88px 16px 90px; isolation:isolate; }
+  .app{ position:relative; min-height:100%; padding:88px 16px 98px; isolation:isolate; }
   header{
     position:fixed; top:0; left:0; right:0; height:72px;
     background: linear-gradient(180deg,#12121a, #0d0d14);
@@ -86,7 +87,7 @@
   section{ display:none }
   section.active{ display:block }
 
-  /* Game modal */
+  /* Modal */
   .modal{
     position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:18px; z-index:20;
     background: rgba(0,0,0,.55);
@@ -137,6 +138,19 @@
   /* SVG thumbs look “pixelated” */
   svg{ image-rendering: pixelated; }
 
+  /* Chat (AI) */
+  .chat{ max-width:900px; margin:0 auto; display:grid; gap:12px }
+  .chatbar{ display:flex; gap:8px }
+  .inpt{ flex:1; background:#10101a; border:1px solid var(--line); border-radius:12px; padding:12px; color:#fff }
+  .bubble{ background:linear-gradient(180deg,#151524,#0f0f18); border:1px solid var(--line); border-radius:14px; padding:10px 12px }
+  .who{ font-weight:800; letter-spacing:.06em }
+  .ai-tag{ color:var(--tt) }
+
+  /* Music list */
+  .song{ display:flex; align-items:center; justify-content:space-between; gap:10px; background:linear-gradient(180deg,#151524,#101018); border:1px solid var(--line); border-radius:12px; padding:8px 10px }
+  .song .name{ font-weight:700 }
+  .song a{ color:#fff; text-decoration:none; font-size:12px; opacity:.9 }
+
   /* Small screens */
   @media (max-width:540px){
     .title{ font-size:16px }
@@ -163,9 +177,15 @@
       <button class="icon-btn" data-tab="about" id="btnAbout" title="About">
         <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8.5h.01M11 12h1v4"/></svg>
       </button>
+      <button class="icon-btn" data-tab="ai" id="btnAI" title="AI">
+        <svg class="icon" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="12" rx="3"/><path d="M8 10h.01M16 10h.01M9 15h6"/></svg>
+      </button>
     </div>
     <div class="brand">GLADIATOR</div>
     <div style="display:flex; gap:10px">
+      <button class="icon-btn" data-tab="music" id="btnMusic" title="Music">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M9 18a3 3 0 1 1-2-2.83V6l12-2v9.17A3 3 0 1 1 17 15"/></svg>
+      </button>
       <button class="icon-btn" data-tab="contact" id="btnContact" title="Contact">
         <svg class="icon" viewBox="0 0 24 24"><path d="M4 5h16v12H6l-2 2V5z"/><path d="M9 10h6M9 13h6M9 7h6"/></svg>
       </button>
@@ -180,24 +200,28 @@
   <section id="home" class="active">
     <div class="grid">
       <div class="cards">
-
         <!-- COD Mobile -->
         <div class="card">
           <div class="thumb">
-            <!-- Simple inline SVG poster -->
             <svg width="100%" height="100%" viewBox="0 0 320 160">
+              <defs>
+                <linearGradient id="g1" x1="0" x2="1">
+                  <stop offset="0" stop-color="#ff2347"/><stop offset="1" stop-color="#ff6f8a"/>
+                </linearGradient>
+              </defs>
               <rect x="0" y="0" width="320" height="160" fill="#0f0f16"/>
-              <rect x="8" y="8" width="304" height="144" fill="#17172a" stroke="#27273b"/>
-              <g stroke="#ff2f4a" stroke-width="3">
-                <path d="M20 120 L70 40 L120 120 Z" fill="none"/>
-                <path d="M130 120 L180 40 L230 120 Z" fill="none"/>
-                <path d="M240 120 L290 40 L300 60" fill="none"/>
+              <rect x="10" y="10" width="300" height="140" rx="10" fill="#161628" stroke="#2a2a3e"/>
+              <g stroke="url(#g1)" stroke-width="3" fill="none">
+                <path d="M22 120 L70 40 L118 120 Z"/>
+                <path d="M128 120 L176 40 L224 120 Z"/>
+                <path d="M234 120 L282 40 L300 70"/>
               </g>
-              <text x="160" y="150" text-anchor="middle" fill="#ff2f4a" style="font: 900 18px sans-serif; letter-spacing:3px">CALL OF DUTY MOBILE</text>
+              <text x="160" y="95" text-anchor="middle" fill="url(#g1)" style="font: 900 26px sans-serif; letter-spacing:6px">CALL OF DUTY</text>
+              <text x="160" y="128" text-anchor="middle" fill="#fff" opacity=".8" style="font: 700 14px monospace; letter-spacing:6px">MOBILE</text>
             </svg>
           </div>
           <div class="card-body">
-            <div class="title">Call of Duty Mobile</div>
+            <div class="title">CALL OF DUTY MOBILE</div>
             <div class="muted">Competitive FPS on mobile.</div>
             <div class="row">
               <button class="btn red" onclick="openGame('Call of Duty Mobile')">Open</button>
@@ -210,19 +234,24 @@
         <div class="card">
           <div class="thumb">
             <svg width="100%" height="100%" viewBox="0 0 320 160">
+              <defs>
+                <linearGradient id="g2" x1="0" x2="1">
+                  <stop offset="0" stop-color="#ff2347"/><stop offset="1" stop-color="#ff9aa8"/>
+                </linearGradient>
+              </defs>
               <rect width="320" height="160" fill="#0f0f16"/>
-              <rect x="8" y="8" width="304" height="144" fill="#161626" stroke="#27273b"/>
-              <g stroke="#ff2f4a" stroke-width="3">
-                <rect x="30" y="90" width="50" height="30" fill="none"/>
-                <rect x="90" y="70" width="60" height="50" fill="none"/>
-                <rect x="170" y="50" width="80" height="70" fill="none"/>
-                <rect x="260" y="30" width="40" height="90" fill="none"/>
+              <rect x="10" y="10" width="300" height="140" rx="10" fill="#151526" stroke="#2a2a3e"/>
+              <g stroke="url(#g2)" stroke-width="3" fill="none">
+                <rect x="26" y="92" width="54" height="28"/>
+                <rect x="88" y="70" width="64" height="50"/>
+                <rect x="168" y="50" width="84" height="68"/>
+                <rect x="264" y="32" width="36" height="86"/>
               </g>
-              <text x="160" y="150" text-anchor="middle" fill="#ff2f4a" style="font: 900 18px sans-serif; letter-spacing:3px">DELTA FORCE</text>
+              <text x="160" y="100" text-anchor="middle" fill="url(#g2)" style="font: 900 26px sans-serif; letter-spacing:6px">DELTA FORCE</text>
             </svg>
           </div>
           <div class="card-body">
-            <div class="title">Delta Force</div>
+            <div class="title">DELTA FORCE</div>
             <div class="muted">Classic tactical action.</div>
             <div class="row">
               <button class="btn red" onclick="openGame('Delta Force')">Open</button>
@@ -235,18 +264,23 @@
         <div class="card">
           <div class="thumb">
             <svg width="100%" height="100%" viewBox="0 0 320 160">
+              <defs>
+                <linearGradient id="g3" x1="0" x2="1">
+                  <stop offset="0" stop-color="#ff2347"/><stop offset="1" stop-color="#ffd36a"/>
+                </linearGradient>
+              </defs>
               <rect width="320" height="160" fill="#0f0f16"/>
-              <rect x="8" y="8" width="304" height="144" fill="#151524" stroke="#27273b"/>
-              <g stroke="#ff2f4a" stroke-width="3">
-                <circle cx="80" cy="85" r="26" fill="none"/>
-                <rect x="120" y="60" width="160" height="50" rx="8" fill="none"/>
+              <rect x="10" y="10" width="300" height="140" rx="10" fill="#151524" stroke="#2a2a3e"/>
+              <g stroke="url(#g3)" stroke-width="3" fill="none">
+                <circle cx="80" cy="85" r="26"/>
+                <rect x="120" y="60" width="160" height="50" rx="8"/>
                 <path d="M140 115 h120" />
               </g>
-              <text x="160" y="150" text-anchor="middle" fill="#ff2f4a" style="font: 900 18px sans-serif; letter-spacing:3px">PUBG MOBILE</text>
+              <text x="160" y="100" text-anchor="middle" fill="url(#g3)" style="font: 900 26px sans-serif; letter-spacing:6px">PUBG MOBILE</text>
             </svg>
           </div>
           <div class="card-body">
-            <div class="title">PUBG Mobile</div>
+            <div class="title">PUBG MOBILE</div>
             <div class="muted">Battle royale, squad up.</div>
             <div class="row">
               <button class="btn red" onclick="openGame('PUBG Mobile')">Open</button>
@@ -254,7 +288,6 @@
             </div>
           </div>
         </div>
-
       </div>
 
       <div class="row" id="videoNoticeRow" style="display:none">
@@ -264,6 +297,9 @@
         </a>
         <a class="link" id="igLink" href="#" target="_blank">
           <span class="dot"></span><span id="igName">Instagram</span>
+        </a>
+        <a class="link" id="ttLink" href="#" target="_blank">
+          <span class="dot"></span><span id="ttName">TikTok</span>
         </a>
       </div>
     </div>
@@ -285,21 +321,30 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <!-- AI Chat -->
+  <!-- AI PANEL -->
+  <section id="ai">
+    <div class="grid">
       <div class="card">
         <div class="card-body">
-          <div class="title">AI Assistant</div>
-          <p class="muted">Ask anything about the games or schedule.</p>
-          <div class="fld">
-            <label>Your message</label>
-            <textarea id="aiIn" class="txt" placeholder="Type here..."></textarea>
+          <div class="title">AI Assistant <span class="ai-tag">[GLADIATOR • Offline]</span></div>
+          <p class="muted">Talk in English or Persian. Greetings, advice, Q&A, gaming tips…</p>
+          <div class="chat" id="chatBox">
+            <div class="bubble"><div class="who ai-tag">AI</div><div>Hi! / سلام! I’m here—how can I help?</div></div>
           </div>
-          <div class="row">
-            <button class="btn red" onclick="askAI()">Send to AI</button>
-            <button class="btn" onclick="clearAI()">Clear</button>
+          <div class="chatbar" style="margin-top:10px">
+            <input id="aiInput" class="inpt" placeholder="Type a message… / یک پیام بنویس…" />
+            <button class="btn red" id="sendAI">Send</button>
           </div>
-          <div class="list" id="aiOut" style="margin-top:12px"></div>
+          <div class="row" style="margin-top:6px">
+            <button class="btn" onclick="quickAI('سلام')">سلام</button>
+            <button class="btn" onclick="quickAI('Help with PUBG tactics')">PUBG tactics</button>
+            <button class="btn" onclick="quickAI('برنامه امشب چیه؟')">برنامه امشب؟</button>
+            <button class="btn" onclick="quickAI('What time can we play?')">Time?</button>
+          </div>
+          <div class="note" id="aiNote" style="margin-top:8px"></div>
         </div>
       </div>
     </div>
@@ -336,6 +381,32 @@
     </div>
   </section>
 
+  <section id="music">
+    <div class="grid">
+      <div class="card">
+        <div class="card-body">
+          <div class="title">Music</div>
+          <p class="muted">Sign in to listen. Only admin can upload.</p>
+          <div id="musicAdmin" style="display:none">
+            <div class="two">
+              <div class="fld">
+                <label>Select audio file</label>
+                <input id="musicFile" type="file" accept="audio/*" />
+              </div>
+              <div class="fld">
+                <label>Actions</label>
+                <button class="btn" onclick="addMusic()">Upload</button>
+              </div>
+            </div>
+            <div class="note">Only admin (code: vortex)</div>
+          </div>
+          <div id="musicList" class="list" style="margin-top:12px"></div>
+          <div class="note" id="musicNote"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="account">
     <div class="stack">
       <div class="card">
@@ -359,6 +430,10 @@
               <input id="accName" class="inp" placeholder="Your gamer name">
             </div>
           </div>
+          <div class="fld">
+            <label>Admin code (optional) — type <b>vortex</b> to become admin</label>
+            <input id="accAdminCode" class="inp" placeholder="vortex">
+          </div>
           <div class="row">
             <button class="btn red" onclick="verifyOTP()">Create / Sign In</button>
             <div class="note" id="accNote"></div>
@@ -369,15 +444,8 @@
       <!-- Admin controls -->
       <div class="card">
         <div class="card-body">
-          <div class="title">Admin Mode</div>
-          <div class="fld">
-            <label>Enter Admin PIN</label>
-            <input id="adminPIN" class="inp" placeholder="PIN">
-          </div>
-          <div class="row">
-            <button class="btn" onclick="unlockAdmin()">Unlock</button>
-            <div class="note" id="adminNote"></div>
-          </div>
+          <div class="title">Admin Panel</div>
+          <div class="note" id="adminNote">Locked (sign in as admin using code “vortex”).</div>
 
           <div id="adminPanel" style="display:none; margin-top:14px">
             <div class="title" style="font-size:16px">Social & Video Links</div>
@@ -390,24 +458,17 @@
               <div class="fld"><label>Instagram link</label><input id="igLinkInp" class="inp" placeholder="https://..."/></div>
             </div>
             <div class="two">
+              <div class="fld"><label>TikTok name</label><input id="ttNameInp" class="inp" placeholder="TikTok"/></div>
+              <div class="fld"><label>TikTok link</label><input id="ttLinkInp" class="inp" placeholder="https://..."/></div>
+            </div>
+            <div class="two">
               <div class="fld"><label>New video (YouTube link)</label><input id="newYT" class="inp" placeholder="https://youtube.com/..."/></div>
-              <div class="fld"><label>New video (Instagram link)</label><input id="newIG" class="inp" placeholder="https://instagram.com/..."/></div>
+              <div class="fld"><label>New video (Instagram/TikTok link)</label><input id="newIGTT" class="inp" placeholder="https://instagram.com/... or https://www.tiktok.com/..."/></div>
             </div>
             <div class="row">
               <button class="btn red" onclick="postVideos()">Post videos</button>
-              <div class="note">This triggers on-site notification.</div>
+              <div class="note">Shows notification on Home.</div>
             </div>
-
-            <div class="title" style="font-size:16px; margin-top:16px">Upload Music (local)</div>
-            <div class="fld">
-              <label>Select audio file</label>
-              <input id="musicFile" type="file" accept="audio/*" />
-            </div>
-            <div class="row">
-              <button class="btn" onclick="addMusic()">Add to player</button>
-              <div class="note">Admin-only. Plays locally in browser.</div>
-            </div>
-            <div id="musicList" class="list" style="margin-top:12px"></div>
           </div>
         </div>
       </div>
@@ -422,6 +483,9 @@
   </a>
   <a class="link" id="igLinkFoot" href="#" target="_blank">
     <span class="dot"></span><span id="igNameFoot">Instagram</span>
+  </a>
+  <a class="link" id="ttLinkFoot" href="#" target="_blank">
+    <span class="dot"></span><span id="ttNameFoot">TikTok</span>
   </a>
 </footer>
 
@@ -471,20 +535,20 @@
 /* =========================
    Simple state + storage
 ========================= */
-const ADMIN_PIN = "GLAD-ADMIN-2025";
 const st = {
-  user: null,       // {name, phone}
+  user: null,       // {name, phone, role:'admin'|'user'}
   otpCode: null,    // generated code for demo
   adminUnlocked: false,
   socials: {
     ytName:"YouTube", ytLink:"#",
-    igName:"Instagram", igLink:"#"
+    igName:"Instagram", igLink:"#",
+    ttName:"TikTok", ttLink:"#"
   },
   inbox: [],        // {from, phone, ts, subj, body}
   music: [],        // {name, url}
   posted: false     // whether admin posted new videos (for notification)
 };
-// Load from localStorage (if any)
+// Load from localStorage
 (function load(){
   try{
     const u = localStorage.getItem("glad_user");
@@ -495,20 +559,29 @@ const st = {
     if(i) st.inbox = JSON.parse(i);
     const m = localStorage.getItem("glad_music");
     if(m) st.music = JSON.parse(m);
+    const p = localStorage.getItem("glad_posted");
+    if(p) st.posted = JSON.parse(p);
   }catch(e){}
 })();
 
 /* =========================
    Nav (icons -> tabs)
 ========================= */
-const tabs = ["home","about","contact","account"];
+const tabs = ["home","about","ai","music","contact","account"];
 function setTab(id){
   tabs.forEach(t=>{
     document.getElementById(t).classList.remove("active");
-    document.querySelector(`[data-tab="${t}"]`).classList.remove("active");
+    const btn = document.querySelector(`[data-tab="${t}"]`);
+    if(btn) btn.classList.remove("active");
   });
   document.getElementById(id).classList.add("active");
-  document.querySelector(`[data-tab="${id}"]`).classList.add("active");
+  const cur = document.querySelector(`[data-tab="${id}"]`);
+  if(cur) cur.classList.add("active");
+  // guards
+  if((id==="ai" || id==="music" || id==="contact") && !st.user){
+    noteToast("Please sign in first.");
+  }
+  refreshLocks();
 }
 document.querySelectorAll(".icon-btn").forEach(b=>{
   b.addEventListener("click",()=> setTab(b.dataset.tab));
@@ -521,19 +594,25 @@ setTab("home");
 setTimeout(()=>{ document.getElementById("splash").style.display="none"; }, 1200);
 
 /* =========================
-   Home – social links + notice
+   Social links + notice
 ========================= */
 function refreshSocials(){
-  const {ytName, ytLink, igName, igLink} = st.socials;
-  document.getElementById("ytName").textContent = ytName;
-  document.getElementById("igName").textContent = igName;
-  document.getElementById("ytLink").href = ytLink || "#";
-  document.getElementById("igLink").href = igLink || "#";
-  document.getElementById("ytNameFoot").textContent = ytName;
-  document.getElementById("igNameFoot").textContent = igName;
-  document.getElementById("ytLinkFoot").href = ytLink || "#";
-  document.getElementById("igLinkFoot").href = igLink || "#";
-  document.getElementById("videoNoticeRow").style.display = st.posted ? "flex":"none";
+  const {ytName, ytLink, igName, igLink, ttName, ttLink} = st.socials;
+  // home row
+  byId("ytName").textContent = ytName;
+  byId("igName").textContent = igName;
+  byId("ytLink").href = ytLink || "#";
+  byId("igLink").href = igLink || "#";
+  const ttA = byId("ttLink"); const ttN = byId("ttName");
+  ttN.textContent = ttName; ttA.href = ttLink || "#";
+  byId("videoNoticeRow").style.display = st.posted ? "flex":"none";
+  // footer
+  byId("ytNameFoot").textContent = ytName;
+  byId("igNameFoot").textContent = igName;
+  byId("ttNameFoot").textContent = ttName;
+  byId("ytLinkFoot").href = ytLink || "#";
+  byId("igLinkFoot").href = igLink || "#";
+  byId("ttLinkFoot").href = ttLink || "#";
 }
 refreshSocials();
 
@@ -543,12 +622,12 @@ refreshSocials();
 let currentGame = null;
 function openGame(name){
   currentGame = name;
-  document.getElementById("gameTitle").textContent = name;
-  document.getElementById("gameModal").classList.add("show");
-  document.getElementById("gameNote").textContent = "";
+  byId("gameTitle").textContent = name;
+  byId("gameModal").classList.add("show");
+  byId("gameNote").textContent = "";
 }
 function closeGame(){
-  document.getElementById("gameModal").classList.remove("show");
+  byId("gameModal").classList.remove("show");
   currentGame = null;
 }
 function shareGame(name){
@@ -556,109 +635,130 @@ function shareGame(name){
 }
 function requestPlay(){
   if(!st.user){
-    document.getElementById("gameNote").textContent = "Sign in first (Account icon).";
+    byId("gameNote").textContent = "Sign in first (Account icon).";
     return;
   }
-  const youN = document.getElementById("yourGameName").value.trim();
-  const youI = document.getElementById("yourGameID").value.trim();
-  const msg  = document.getElementById("yourMsg").value.trim();
+  const youN = byId("yourGameName").value.trim();
+  const youI = byId("yourGameID").value.trim();
+  const msg  = byId("yourMsg").value.trim();
   if(!youN || !youI){
-    document.getElementById("gameNote").textContent = "Enter your name and numeric ID.";
+    byId("gameNote").textContent = "Enter your name and numeric ID.";
     return;
   }
   const subj = `[${currentGame}] Play request from ${youN} (${youI})`;
   st.inbox.unshift({from: st.user.name, phone: st.user.phone, ts: Date.now(), subj, body: msg || "Let's play!"});
   localStorage.setItem("glad_inbox", JSON.stringify(st.inbox));
   renderInbox();
-  document.getElementById("gameNote").textContent = "Request sent.";
+  byId("gameNote").textContent = "Request sent.";
 }
 
 /* =========================
    Contact (messages)
 ========================= */
 function sendMessage(){
-  const subj = document.getElementById("msgSubj").value.trim();
-  const body = document.getElementById("msgBody").value.trim();
-  if(!st.user){ setTab("account"); document.getElementById("msgNote").textContent = "Sign in first."; return; }
-  if(!subj || !body){ document.getElementById("msgNote").textContent = "Fill subject and message."; return; }
+  const subj = byId("msgSubj").value.trim();
+  const body = byId("msgBody").value.trim();
+  if(!st.user){ setTab("account"); byId("msgNote").textContent = "Sign in first."; return; }
+  if(!subj || !body){ byId("msgNote").textContent = "Fill subject and message."; return; }
   st.inbox.unshift({from: st.user.name, phone: st.user.phone, ts: Date.now(), subj, body});
   localStorage.setItem("glad_inbox", JSON.stringify(st.inbox));
   renderInbox();
-  document.getElementById("msgSubj").value = "";
-  document.getElementById("msgBody").value = "";
-  document.getElementById("msgNote").textContent = "Message sent.";
+  byId("msgSubj").value = "";
+  byId("msgBody").value = "";
+  byId("msgNote").textContent = "Message sent.";
 }
 function renderInbox(){
-  const box = document.getElementById("inbox");
+  const box = byId("inbox");
   box.innerHTML = "";
   st.inbox.forEach(m=>{
     const d = new Date(m.ts);
     const el = document.createElement("div");
     el.className = "msg";
-    el.innerHTML = `<div style="font-weight:700">${m.subj}</div>
-      <div class="muted">${d.toLocaleString()} • From: ${m.from} (${m.phone})</div>
-      <div style="margin-top:6px">${m.body}</div>`;
+    el.innerHTML = `<div style="font-weight:700">${escapeHtml(m.subj)}</div>
+      <div class="muted">${d.toLocaleString()} • From: ${escapeHtml(m.from)} (${escapeHtml(m.phone)})</div>
+      <div style="margin-top:6px">${escapeHtml(m.body)}</div>`;
     box.appendChild(el);
   });
 }
 renderInbox();
 
 /* =========================
-   Account + OTP (simulated)
+   Account + OTP + Admin code
 ========================= */
 function sendOTP(){
-  const ph = document.getElementById("accPhone").value.trim();
-  if(!ph){ document.getElementById("otpSentNote").textContent = "Enter phone first."; return; }
+  const ph = byId("accPhone").value.trim();
+  if(!ph){ byId("otpSentNote").textContent = "Enter phone first."; return; }
   const code = Math.floor(1000 + Math.random()*9000).toString();
   st.otpCode = code;
-  document.getElementById("otpSentNote").textContent = "Test OTP (for demo): " + code;
+  byId("otpSentNote").textContent = "Test OTP (for demo): " + code;
 }
 function verifyOTP(){
-  const code = document.getElementById("accOTP").value.trim();
-  const name = document.getElementById("accName").value.trim() || "Player";
-  const phone = document.getElementById("accPhone").value.trim();
-  if(!st.otpCode){ document.getElementById("accNote").textContent = "Send code first."; return; }
-  if(code !== st.otpCode){ document.getElementById("accNote").textContent = "Invalid code."; return; }
-  st.user = {name, phone};
+  const code = byId("accOTP").value.trim();
+  const name = byId("accName").value.trim() || "Player";
+  const phone = byId("accPhone").value.trim();
+  const adminCode = byId("accAdminCode").value.trim();
+  if(!st.otpCode){ byId("accNote").textContent = "Send code first."; return; }
+  if(code !== st.otpCode){ byId("accNote").textContent = "Invalid code."; return; }
+  const isAdmin = (adminCode.toLowerCase() === "vortex");
+  st.user = {name, phone, role: isAdmin ? "admin":"user"};
+  st.adminUnlocked = isAdmin;
   localStorage.setItem("glad_user", JSON.stringify(st.user));
-  document.getElementById("accNote").textContent = "Signed in as " + name;
+  byId("accNote").textContent = "Signed in as " + name + (isAdmin ? " (admin)":"");
   st.otpCode = null;
+  refreshLocks();
 }
 
 /* =========================
-   Admin
+   Admin panel (links + posts)
 ========================= */
-function unlockAdmin(){
-  const pin = document.getElementById("adminPIN").value.trim();
-  if(pin === ADMIN_PIN){
-    st.adminUnlocked = true;
-    document.getElementById("adminPanel").style.display = "block";
-    document.getElementById("adminNote").textContent = "Admin unlocked.";
+function refreshLocks(){
+  // admin panel visibility
+  const ap = byId("adminPanel");
+  const an = byId("adminNote");
+  if(st.user && st.user.role==="admin"){
+    ap.style.display = "block";
+    an.textContent = "Admin unlocked.";
     // preload fields
-    document.getElementById("ytNameInp").value = st.socials.ytName;
-    document.getElementById("ytLinkInp").value = st.socials.ytLink;
-    document.getElementById("igNameInp").value = st.socials.igName;
-    document.getElementById("igLinkInp").value = st.socials.igLink;
-    renderMusic();
+    byId("ytNameInp").value = st.socials.ytName;
+    byId("ytLinkInp").value = st.socials.ytLink;
+    byId("igNameInp").value = st.socials.igName;
+    byId("igLinkInp").value = st.socials.igLink;
+    byId("ttNameInp").value = st.socials.ttName;
+    byId("ttLinkInp").value = st.socials.ttLink;
+    byId("musicAdmin").style.display = "block";
   }else{
-    document.getElementById("adminNote").textContent = "Wrong PIN.";
+    ap.style.display = "none";
+    an.textContent = "Locked (sign in as admin using code “vortex”).";
+    byId("musicAdmin").style.display = "none";
   }
+  // feature guards
+  byId("sendAI").disabled = !st.user;
+  byId("aiInput").disabled = !st.user;
+  byId("musicNote").textContent = st.user ? "" : "Sign in to view the list.";
+  renderMusic();
 }
 function postVideos(){
-  if(!st.adminUnlocked) return;
-  const ytName = document.getElementById("ytNameInp").value.trim() || "YouTube";
-  const ytLink = document.getElementById("ytLinkInp").value.trim() || "#";
-  const igName = document.getElementById("igNameInp").value.trim() || "Instagram";
-  const igLink = document.getElementById("igLinkInp").value.trim() || "#";
-  st.socials = {ytName, ytLink, igName, igLink};
+  if(!(st.user && st.user.role==="admin")) return;
+  const ytName = byId("ytNameInp").value.trim() || "YouTube";
+  const ytLink = byId("ytLinkInp").value.trim() || "#";
+  const igName = byId("igNameInp").value.trim() || "Instagram";
+  const igLink = byId("igLinkInp").value.trim() || "#";
+  const ttName = byId("ttNameInp").value.trim() || "TikTok";
+  const ttLink = byId("ttLinkInp").value.trim() || "#";
+  st.socials = {ytName, ytLink, igName, igLink, ttName, ttLink};
   localStorage.setItem("glad_socials", JSON.stringify(st.socials));
   st.posted = true;
+  localStorage.setItem("glad_posted", JSON.stringify(true));
   refreshSocials();
   alert("Gladiator posted new videos. A notice is shown on Home.");
 }
+
+/* =========================
+   Music (admin upload, all users listen)
+========================= */
 function addMusic(){
-  if(!st.adminUnlocked) return;
-  const f = document.getElementById("musicFile").files[0];
+  if(!(st.user && st.user.role==="admin")){ alert("Admin only."); return; }
+  const f = byId("musicFile").files[0];
   if(!f){ alert("Choose an audio file."); return; }
   const url = URL.createObjectURL(f);
   const name = f.name;
@@ -667,63 +767,138 @@ function addMusic(){
   renderMusic();
 }
 function renderMusic(){
-  const list = document.getElementById("musicList");
+  const list = byId("musicList");
   list.innerHTML = "";
+  if(!st.user){ return; }
   st.music.forEach((m, i)=>{
     const wrap = document.createElement("div");
-    wrap.className="msg";
-    wrap.innerHTML = `<div style="font-weight:700">${m.name}</div>
-      <audio controls style="width:100%; margin-top:6px" src="${m.url}"></audio>`;
+    wrap.className="song";
+    wrap.innerHTML = `<div class="name">${escapeHtml(m.name)}</div>
+      <div style="display:flex; gap:8px; align-items:center">
+        <audio controls src="${m.url}" style="height:28px"></audio>
+        <a href="${m.url}" download>Download</a>
+      </div>`;
     list.appendChild(wrap);
   });
 }
 
 /* =========================
-   AI (simple offline)
+   AI — strong offline bot
 ========================= */
-function askAI(){
-  const q = document.getElementById("aiIn").value.trim();
-  if(!q) return;
-  const out = document.getElementById("aiOut");
-  const me = document.createElement("div");
-  me.className="msg";
-  me.innerHTML = `<div style="font-weight:700">You</div><div style="margin-top:6px">${q}</div>`;
-  out.prepend(me);
-  // Simple canned logic
-  let a = "I’m here. Tell me which game and your region/time.";
-  const s = q.toLowerCase();
-  if(s.includes("time")||s.includes("when")) a = "I’m available most evenings. Propose a time and game mode.";
-  if(s.includes("cod")||s.includes("call of duty")) a = "COD Mobile: I usually play MP ranked and BR. Drop your ID.";
-  if(s.includes("pubg")) a = "PUBG Mobile: squad preferred, hot drop or safe rotation?";
-  if(s.includes("delta")) a = "Delta Force: classic modes; we can run tactical missions.";
-  const bot = document.createElement("div");
-  bot.className="msg";
-  bot.innerHTML = `<div style="font-weight:700">AI</div><div style="margin-top:6px">${a}</div>`;
-  out.prepend(bot);
+function quickAI(text){
+  byId("aiInput").value = text;
+  sendAIMessage();
 }
-function clearAI(){
-  document.getElementById("aiIn").value="";
-  document.getElementById("aiOut").innerHTML="";
+byId("sendAI").addEventListener("click", sendAIMessage);
+byId("aiInput").addEventListener("keydown", (e)=>{
+  if(e.key==="Enter"){ e.preventDefault(); sendAIMessage(); }
+});
+function sendAIMessage(){
+  if(!st.user){ setTab("account"); byId("aiNote").textContent="Sign in first."; return; }
+  const q = byId("aiInput").value.trim();
+  if(!q) return;
+  byId("aiInput").value = "";
+  addBubble("You", q);
+  // generate reply
+  const a = aiReply(q);
+  setTimeout(()=> addBubble("AI", a, true), 120);
+}
+function addBubble(who, txt, isAI=false){
+  const box = byId("chatBox");
+  const b = document.createElement("div");
+  b.className="bubble";
+  const name = `<div class="who ${isAI?'ai-tag':''}">${who}</div>`;
+  b.innerHTML = `${name}<div style="margin-top:6px; white-space:pre-wrap">${escapeHtml(txt)}</div>`;
+  box.appendChild(b);
+  b.scrollIntoView({behavior:"smooth", block:"end"});
+}
+function aiReply(q){
+  const s = q.trim();
+  const low = s.toLowerCase();
+  const isFa = /[\u0600-\u06FF]/.test(s);
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString();
+  const dateStr = now.toLocaleDateString();
+
+  // greetings
+  if(/^(hi|hello|hey)\b/.test(low)) return "Hello! Need tips, schedule, or anything else?";
+  if(/^(سلام|درود|س|سلام علیک)/.test(s)) return "سلام! چطوری رفیق؟ درباره بازی‌ها، برنامه، یا هرچی بپرس 😉";
+
+  // how are you
+  if(/(how are you|how r u|how's it going)/.test(low)) return "I’m good and ready to play. How about you?";
+  if(/(چطوری|حالت|حالِت|چه خبر)/.test(s)) return "منم خوبم، آماده بازی و کمک. تو خوبی؟";
+
+  // time / date
+  if(/(time|what time|schedule)/.test(low)) return `Right now it's ${timeStr}. Propose a time and I’ll confirm.`;
+  if(/(ساعت|زمان|برنامه|کی بازی)/.test(s)) return `الان ${timeStr} ـه. یه زمان بده هماهنگ کنیم.`;
+  if(/date/.test(low) || /(تاریخ|امروز)/.test(s)) return isFa ? `امروز ${dateStr} هست.` : `Today is ${dateStr}.`;
+
+  // games
+  if(/cod|call of duty/.test(low)) return "COD Mobile: prefer MP ranked & BR. Drop your ID and region.";
+  if(/pubg/.test(low)) return "PUBG Mobile: IGL or support? We can try split or stack depending on circle.";
+  if(/delta/.test(low)) return "Delta Force: tactical comms, slow push, watch angles.";
+  if(/(کالاف|کالاف دیوتی)/.test(s)) return "کالاف: معمولا MP رنک و BR می‌زنم. آیدی و ریجن رو بفرست.";
+  if(/(پابجی|پابجی موبایل)/.test(s)) return "پابجی: اسکواد بهتره، بسته به سیف/هات دراپ هماهنگ می‌کنیم.";
+  if(/دلتا/.test(s)) return "دلتا فورس: آروم و تاکتیکی، اسموک و کاور رو فراموش نکن.";
+
+  // general advice
+  if(/tips|advice|help/.test(low)) return "Warm-up 10 min, fix sensitivity, focus on crosshair placement, review VODs weekly.";
+  if(/(نکته|راهنمایی|کمک)/.test(s)) return "۱۰ دقیقه وارم‌آپ، حساسیت ثابت، هدلاینینگ، ویدیو‌هات رو هفتگی مرور کن.";
+
+  // join / id
+  if(/(add|join|id|my id)/.test(low) || /(آیدی|اضافه کن|جوین)/.test(s))
+    return isFa ? "آیدی عددی و اسم داخل بازی رو بفرست تا جوینت کنم." : "Send your in‑game name & numeric ID and I’ll add you.";
+
+  // fallback
+  return isFa
+    ? "گرفتم! کمی بیشتر توضیح می‌دی چی می‌خوای؟ درباره بازی‌ها، زمان‌بندی، یا هر موضوعی بپرس."
+    : "Got it! Tell me a bit more—games, timing, or anything you need.";
 }
 
 /* =========================
    Utilities
 ========================= */
-function fmtTime(ts){
-  const d = new Date(ts);
-  return d.toLocaleString();
+function byId(id){ return document.getElementById(id); }
+function escapeHtml(str){
+  return String(str).replace(/[&<>"']/g, s=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;' }[s]));
+}
+function noteToast(msg){
+  // simple inline notice
+  alert(msg);
 }
 
 /* =========================
-   Keyboard hint (optional)
+   Home social refresh on load
+========================= */
+refreshSocials();
+
+/* =========================
+   Keyboard hotkeys (fixed)
+   - Do nothing if typing in input/textarea
 ========================= */
 document.addEventListener("keydown",(e)=>{
+  const tag = document.activeElement.tagName.toLowerCase();
+  if(tag === "input" || tag === "textarea") return; // <— FIX: ignore while typing
   if(e.key==="1") setTab("home");
   if(e.key==="2") setTab("about");
-  if(e.key==="3") setTab("contact");
-  if(e.key==="4") setTab("account");
+  if(e.key==="3") setTab("ai");
+  if(e.key==="4") setTab("music");
+  if(e.key==="5") setTab("contact");
+  if(e.key==="6") setTab("account");
 });
 
+/* =========================
+   Music + Admin + Inbox initial
+========================= */
+refreshLocks();
+renderInbox();
+
+/* =========================
+   Game Modal close on bg click
+========================= */
+byId("gameModal").addEventListener("click",(e)=>{
+  if(e.target.id==="gameModal") closeGame();
+});
 </script>
 </body>
 </html>
