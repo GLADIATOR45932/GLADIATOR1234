@@ -1,72 +1,136 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-<title>GLADIATOR</title>
+<title>Gladiator</title>
 <style>
-:root{
-  --bg:#0b0b0f; --bg-soft:#111119; --panel:#141420; --ink:#e8e8f0; --muted:#a6a6b3;
-  --red:#ff1f3d; --red2:#ff3b58; --line:#1f2030; --chip:#171729;
-}
-*{box-sizing:border-box} html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family:IRANSans,system-ui,Segoe UI,Roboto,Arial}
-body::before,body::after{content:"";position:fixed;z-index:0;width:46vmin;height:46vmin;background:
-  radial-gradient(closest-side,rgba(255,31,61,.35),transparent 60%),
-  conic-gradient(from 0deg,rgba(255,80,100,.35),transparent 40%,rgba(255,31,61,.6),transparent 70%);
-filter:blur(18px) saturate(140%);animation:arc 8s linear infinite;pointer-events:none}
-body::before{top:-10vmin;left:-12vmin} body::after{bottom:-12vmin;right:-10vmin;animation-direction:reverse}
-@keyframes arc{to{transform:rotate(360deg)}}
+  :root{
+    --bg:#0b0b0f;
+    --panel:#141420;
+    --ink:#f2f2f7;
+    --muted:#a6a6b3;
+    --line:#1f2030;
+    --red:#ff1f3d;
+    --accent:#ff2f4a;
+    --soft:#111119;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif}
 
-.app{position:relative;min-height:100%;padding:88px 16px 90px;isolation:isolate}
-header{position:fixed;top:0;left:0;right:0;height:72px;background:linear-gradient(180deg,#12121a,#0d0d14);border-bottom:1px solid var(--line);
-  display:flex;align-items:center;justify-content:center;z-index:10}
-.nav{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 12px}
-.brand{position:absolute;left:50%;transform:translateX(-50%);font-weight:900;letter-spacing:.28em;font-size:20px;text-shadow:0 0 18px rgba(255,47,74,.35)}
-.icon-btn{width:52px;height:52px;border-radius:14px;border:1px solid var(--line);background:linear-gradient(180deg,#161621,#11111a);
-  display:grid;place-items:center;cursor:pointer;transition:.15s;box-shadow:inset 0 0 0 1px rgba(255,47,74,.08)}
-.icon-btn:active{transform:scale(.96)} .icon-btn.active{outline:2px solid rgba(255,47,74,.55);box-shadow:0 0 0 6px rgba(255,47,74,.08) inset}
-.icon{width:26px;height:26px;fill:none;stroke:#ff4b63;stroke-width:2.2}
+  /* Ambient blobs */
+  body::before, body::after{
+    content:""; position:fixed; z-index:0; width:44vmin; height:44vmin;
+    background:
+      radial-gradient(closest-side, rgba(255,31,61,.35), transparent 60%),
+      conic-gradient(from 0deg, rgba(255,80,100,.35), transparent 40%, rgba(255,31,61,.6), transparent 70%);
+    filter: blur(18px) saturate(140%); animation: arc 8s linear infinite; pointer-events:none;
+  }
+  body::before{ top:-10vmin; left:-12vmin }
+  body::after{ bottom:-12vmin; right:-10vmin; animation-direction:reverse }
+  @keyframes arc{ to{ transform:rotate(360deg)} }
 
-.grid{display:grid;gap:18px;max-width:980px;margin:0 auto}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
-.card{background:linear-gradient(180deg,#151522,#11111a);border:1px solid var(--line);border-radius:18px;overflow:hidden;
-  box-shadow:0 8px 30px rgba(0,0,0,.3),inset 0 0 0 1px rgba(255,47,74,.05)}
-.card-body{padding:16px}
-.title{font-weight:900;letter-spacing:.12em;font-size:20px}
-.muted{color:var(--muted);font-size:13px;margin-top:6px}
-.row{display:flex;gap:10px;align-items:center;margin-top:12px}
-.btn{padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:linear-gradient(180deg,#1a1a28,#131320);color:#fff;font-weight:800;letter-spacing:.06em;cursor:pointer}
-.btn.red{background:linear-gradient(180deg,#ff2347,#e41836);border-color:#c20f29;box-shadow:0 4px 18px rgba(255,35,71,.35)}
-section{display:none} section.active{display:block}
-.list{display:grid;gap:10px} .msg{background:linear-gradient(180deg,#141425,#101018);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+  /* Shell */
+  .app{ position:relative; min-height:100%; padding:88px 16px 90px; isolation:isolate; }
+  header{
+    position:fixed; top:0; left:0; right:0; height:72px; z-index:10;
+    background:linear-gradient(180deg,#12121a,#0d0d14); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .brand{ position:absolute; left:50%; transform:translateX(-50%); letter-spacing:.24em; font-weight:900; color:#fff }
+  .nav{ display:flex; gap:12px; align-items:center; position:absolute; left:10px }
+  .nav.right{ right:10px; left:auto }
+  .icon-btn{
+    width:52px; height:52px; border-radius:14px; border:1px solid var(--line);
+    background:linear-gradient(180deg,#161621,#11111a);
+    display:grid; place-items:center; cursor:pointer; transition:.15s transform ease; box-shadow:inset 0 0 0 1px rgba(255,47,74,.08)
+  }
+  .icon-btn:active{ transform:scale(.96) }
+  .icon-btn.active{ outline:2px solid rgba(255,47,74,.55); box-shadow:0 0 0 6px rgba(255,47,74,.08) inset }
+  .icon{ width:26px; height:26px; fill:none; stroke:#ff4b63; stroke-width:2.2 }
 
-footer{position:fixed;bottom:0;left:0;right:0;height:72px;display:flex;align-items:center;justify-content:center;gap:14px;border-top:1px solid var(--line);
-  background:linear-gradient(180deg,#0f0f16,#0b0b11);z-index:9}
-.link{display:flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:#12121c;color:#fff;text-decoration:none;font-size:13px}
-.dot{width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:0 0 10px rgba(255,47,74,.9)}
-.fab{position:fixed;right:14px;z-index:12;width:58px;height:58px;border-radius:50%;border:1px solid var(--line);background:#151525;
-  display:grid;place-items:center;box-shadow:0 10px 26px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,47,74,.06);cursor:pointer}
-#fabAI{top:40%} #fabMusic{top:52%}
-.fab span{font-weight:900;letter-spacing:.06em}
-.splash{position:fixed;inset:0;display:grid;place-items:center;background:radial-gradient(1200px 700px at 50% 80%,rgba(255,47,74,.08),transparent),#0a0a0e;z-index:30}
-.sp-title{font-size:36px;font-weight:900;letter-spacing:.25em;color:#ff304b;text-shadow:0 0 20px rgba(255,50,80,.55)}
-.spinner{margin-top:14px;width:62px;height:62px;border-radius:50%;border:3px solid rgba(255,47,74,.35);border-top-color:#ff2f4a;animation:spin 1.1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
+  /* Sections */
+  section{ display:none }
+  section.active{ display:block }
+  .grid{ display:grid; gap:18px; max-width:980px; margin:0 auto }
+  .cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px }
+  .card{ background:linear-gradient(180deg,#151522,#11111a); border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,.3), inset 0 0 0 1px rgba(255,47,74,.05) }
+  .card-body{ padding:14px 14px 16px }
+  .title{ font-weight:900; letter-spacing:.08em; font-size:18px; text-align:center }
+  .muted{ color:var(--muted); font-size:13px; margin-top:6px; text-align:center }
+  .row{ display:flex; gap:10px; align-items:center; margin-top:12px; justify-content:center }
+  .btn{
+    padding:10px 14px; border-radius:12px; border:1px solid var(--line);
+    background:linear-gradient(180deg,#1a1a28,#131320); color:#fff; font-weight:800; letter-spacing:.06em;
+    cursor:pointer; transition:.15s transform ease
+  }
+  .btn.red{ background:linear-gradient(180deg,#ff2347,#e41836); border-color:#c20f29; box-shadow:0 4px 18px rgba(255,35,71,.35) }
+  .btn:active{ transform:translateY(1px) }
 
-/* fields */
-.fld{display:grid;gap:8px;margin:10px 0}
-.fld label{font-size:13px;color:var(--muted)}
-.inp,.txt{width:100%;background:#10101a;color:#fff;border:1px solid var(--line);padding:12px;border-radius:12px}
-.txt{min-height:90px;resize:vertical}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.note{color:var(--muted);font-size:12px}
+  /* Game thumbs (name only) */
+  .thumbName{
+    height:140px; display:grid; place-items:center; border-bottom:1px solid var(--line); background:#0f0f16
+  }
+  .g-name{ font: 900 20px/1.2 "Segoe UI", system-ui; letter-spacing:.18em; color:#ff304b; text-shadow:0 0 18px rgba(255,50,80,.45); text-align:center }
 
-/* audio toggle (speaker) */
-#soundToggle{position:fixed;left:14px;bottom:88px;z-index:12}
-.spk{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:#17172a;display:grid;place-items:center;cursor:pointer}
+  /* Modal (shared) */
+  .modal{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:18px; z-index:20; background:rgba(0,0,0,.55) }
+  .modal.show{ display:flex }
+  .sheet{ width:min(760px,96vw); background:linear-gradient(180deg,#151521,#101018); border:1px solid var(--line); border-radius:18px; overflow:hidden }
+  .sheet .hd{ display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--line) }
+  .sheet .bd{ padding:16px }
+  .x{ background:#191927; border:1px solid var(--line); color:#fff; border-radius:10px; padding:8px 12px; cursor:pointer }
 
-/* small */
-@media (max-width:540px){.title{font-size:18px}}
+  .fld{ display:grid; gap:8px; margin:10px 0 }
+  .fld label{ font-size:13px; color:var(--muted) }
+  .inp,.txt,.inp-num{ width:100%; background:#10101a; color:#fff; border:1px solid var(--line); padding:12px; border-radius:12px }
+  .txt{ min-height:90px; resize:vertical }
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:10px }
+  .note{ color:var(--muted); font-size:12px }
+
+  /* Floating action bubbles (AI, Music) — bottom-right */
+  .fab{
+    position:fixed; right:16px; z-index:9; width:64px; height:64px; border-radius:50%;
+    border:1px solid var(--line); background:radial-gradient(circle at 30% 30%, rgba(255,47,74,.18), #12121c 60%);
+    display:grid; place-items:center; cursor:pointer; box-shadow:0 10px 28px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,47,74,.08)
+  }
+  .fab svg{ width:30px; height:30px; stroke:#ff4b63; fill:none; stroke-width:2.2 }
+  .fab.ai{ bottom: 88px }
+  .fab.music{ bottom: 16px }
+
+  /* Background audio mini-panel — bottom-left */
+  .bgctl{
+    position:fixed; left:16px; bottom:16px; z-index:9;
+    display:flex; align-items:center; gap:8px;
+    padding:8px 12px; border-radius:14px; border:1px solid var(--line);
+    background:linear-gradient(180deg,#12121c,#0d0d14);
+    box-shadow:0 10px 28px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,47,74,.06);
+  }
+  .mini-btn{
+    width:36px; height:36px; border-radius:10px; border:1px solid var(--line);
+    background:#171726; display:grid; place-items:center; cursor:pointer
+  }
+  .mini-btn svg{ width:20px; height:20px; stroke:#ff4b63; fill:none; stroke-width:2 }
+  .bgtitle{ font-size:12px; color:var(--muted); max-width:160px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+  .bgvol{ width:120px }
+
+  /* Footer socials */
+  footer{ position:fixed; bottom:0; left:0; right:0; height:72px; display:flex; align-items:center; justify-content:center; gap:14px; border-top:1px solid var(--line); background:linear-gradient(180deg,#0f0f16,#0b0b11); z-index:8 }
+  .link{ display:flex; gap:8px; align-items:center; padding:8px 12px; border-radius:999px; border:1px solid var(--line); background:#12121c; color:#fff; text-decoration:none; font-size:13px }
+  .dot{ width:10px; height:10px; border-radius:50%; background:var(--red); box-shadow:0 0 10px rgba(255,47,74,.9) }
+
+  /* Splash */
+  .splash{ position:fixed; inset:0; display:grid; place-items:center; background:radial-gradient(1200px 700px at 50% 80%, rgba(255,47,74,.08), transparent), #0a0a0e; z-index:30 }
+  .sp-title{ font-size:36px; font-weight:900; letter-spacing:.25em; color:#ff304b; text-shadow:0 0 20px rgba(255,50,80,.55) }
+  .spinner{ margin-top:14px; width:62px; height:62px; border-radius:50%; border:3px solid rgba(255,47,74,.35); border-top-color:#ff2f4a; animation:spin 1.1s linear infinite }
+  @keyframes spin{ to{ transform:rotate(360deg)} }
+
+  @media (max-width:540px){
+    .thumbName{ height:120px }
+    .g-name{ font-size:18px }
+    .bgtitle{ max-width:110px }
+    .bgvol{ width:90px }
+  }
 </style>
 </head>
 <body>
@@ -79,134 +143,148 @@ footer{position:fixed;bottom:0;left:0;right:0;height:72px;display:flex;align-ite
   </div>
 </div>
 
-<!-- FABs -->
-<button id="fabAI" class="fab" title="هوش مصنوعی"><span>AI</span></button>
-<button id="fabMusic" class="fab" title="موزیک"><span>♫</span></button>
-<button id="soundToggle" class="spk" title="صدا">
-  <svg width="22" height="22" viewBox="0 0 24 24" stroke="#ff4b63" fill="none" stroke-width="2">
-    <path d="M3 10h4l4-3v10l-4-3H3z"/><path id="wave" d="M16 8a5 5 0 0 1 0 8"/>
-  </svg>
-</button>
-
 <header>
   <div class="nav">
-    <div style="display:flex;gap:10px">
-      <button class="icon-btn" data-tab="home" title="خانه"><svg class="icon" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5M6 9.5V21h12V9.5"/></svg></button>
-      <button class="icon-btn" data-tab="about" title="درباره"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8.5h.01M11 12h1v4"/></svg></button>
-    </div>
-    <div class="brand">G L A D I A T O R</div>
-    <div style="display:flex;gap:10px">
-      <button class="icon-btn" data-tab="music" title="موزیک"><svg class="icon" viewBox="0 0 24 24"><path d="M9 18a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM13 6l7-2v11"/></svg></button>
-      <button class="icon-btn" data-tab="account" title="حساب"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></button>
-    </div>
+    <button class="icon-btn" data-tab="home" title="Home">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5M6 9.5V21h12V9.5"/></svg>
+    </button>
+    <button class="icon-btn" data-tab="about" title="About">
+      <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8.5h.01M11 12h1v4"/></svg>
+    </button>
+  </div>
+  <div class="brand">GLADIATOR</div>
+  <div class="nav right">
+    <button class="icon-btn" data-tab="contact" title="Contact">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M4 5h16v12H6l-2 2V5z"/><path d="M9 10h6M9 13h6M9 7h6"/></svg>
+    </button>
+    <button class="icon-btn" data-tab="account" title="Account">
+      <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+    </button>
   </div>
 </header>
 
+<!-- Floating bubbles (bottom-right) -->
+<button class="fab ai" id="fabAI" title="AI">
+  <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M8 12h8M12 8v8"/></svg>
+</button>
+<button class="fab music" id="fabMusic" title="Music">
+  <svg viewBox="0 0 24 24"><path d="M9 18a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM15 6v10a3 3 0 1 0 2 2V8l4-1V5l-6 1z"/></svg>
+</button>
+
+<!-- Background audio control (bottom-left) -->
+<div class="bgctl" id="bgCtl">
+  <button class="mini-btn" id="bgToggle" title="Play/Pause">
+    <svg viewBox="0 0 24 24" id="bgToggleIcon"><path d="M8 5v14M16 5v14"/></svg>
+  </button>
+  <button class="mini-btn" id="bgMute" title="Mute/Unmute">
+    <svg viewBox="0 0 24 24" id="bgMuteIcon"><path d="M4 10v4h4l5 4V6l-5 4H4z"/></svg>
+  </button>
+  <input id="bgVol" class="bgvol" type="range" min="0" max="100" value="50" />
+  <div class="bgtitle" id="bgTitle">No background</div>
+</div>
+
 <div class="app">
-  <!-- خانه -->
   <section id="home" class="active">
     <div class="grid">
       <div class="cards">
-        <!-- فقط اسمِ بازی‌ها -->
         <div class="card">
+          <div class="thumbName"><div class="g-name">CALL OF DUTY MOBILE</div></div>
           <div class="card-body">
-            <div class="title" style="font-size:26px;text-shadow:0 0 18px rgba(255,47,74,.35)">CALL OF DUTY MOBILE</div>
-            <div class="muted">Competitive FPS</div>
+            <div class="muted">Competitive FPS on mobile.</div>
             <div class="row">
-              <button class="btn red" onclick="openGame('Call of Duty Mobile')">باز کردن</button>
+              <button class="btn red" onclick="openGame('Call of Duty Mobile')">Open</button>
+              <button class="btn" onclick="shareGame('Call of Duty Mobile')">Share</button>
             </div>
           </div>
         </div>
+
         <div class="card">
+          <div class="thumbName"><div class="g-name">DELTA FORCE</div></div>
           <div class="card-body">
-            <div class="title" style="font-size:26px;text-shadow:0 0 18px rgba(255,47,74,.35)">DELTA FORCE</div>
-            <div class="muted">Tactical classic</div>
-            <div class="row"><button class="btn red" onclick="openGame('Delta Force')">باز کردن</button></div>
+            <div class="muted">Classic tactical action.</div>
+            <div class="row">
+              <button class="btn red" onclick="openGame('Delta Force')">Open</button>
+              <button class="btn" onclick="shareGame('Delta Force')">Share</button>
+            </div>
           </div>
         </div>
+
         <div class="card">
+          <div class="thumbName"><div class="g-name">PUBG MOBILE</div></div>
           <div class="card-body">
-            <div class="title" style="font-size:26px;text-shadow:0 0 18px rgba(255,47,74,.35)">PUBG MOBILE</div>
-            <div class="muted">Battle Royale</div>
-            <div class="row"><button class="btn red" onclick="openGame('PUBG Mobile')">باز کردن</button></div>
+            <div class="muted">Battle royale, squad up.</div>
+            <div class="row">
+              <button class="btn red" onclick="openGame('PUBG Mobile')">Open</button>
+              <button class="btn" onclick="shareGame('PUBG Mobile')">Share</button>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="row" id="videoNoticeRow" style="display:none">
-        <div class="note">Gladiator ویدیو جدید گذاشت • پلتفرم را انتخاب کن:</div>
+        <div class="muted">Gladiator posted new videos • Choose a platform:</div>
         <a class="link" id="ytLink" target="_blank"><span class="dot"></span><span id="ytName">YouTube</span></a>
         <a class="link" id="igLink" target="_blank"><span class="dot"></span><span id="igName">Instagram</span></a>
-        <a class="link" id="ttLink" target="_blank"><span class="dot"></span><span id="ttName">TikTok</span></a>
+        <a class="link" id="tkLink" target="_blank"><span class="dot"></span><span id="tkName">TikTok</span></a>
       </div>
     </div>
   </section>
 
-  <!-- درباره + AI -->
   <section id="about">
     <div class="grid">
       <div class="card"><div class="card-body">
-        <div class="title">درباره GLADIATOR</div>
-        <p class="muted">آپلود روزانه، همکاری، اسکواد پلی. فقط اکانت‌های تأیید‌شده می‌توانند درخواست بازی و پیام ارسال کنند.</p>
-      </div></div>
-
-      <div class="card" id="aiPanel"><div class="card-body">
-        <div class="title">هوش مصنوعی (فارسی/English)</div>
-        <p class="muted">برای دانش عمومی، «موضوع» را بنویس؛ خلاصهٔ ویکی‌پدیا می‌آید. مثال: «ویکی پلنگ برفی».</p>
-        <div class="fld"><label>پیام شما</label><textarea id="aiIn" class="txt" placeholder="سؤال یا موضوع…"></textarea></div>
-        <div class="row">
-          <button class="btn red" onclick="askAI()">ارسال</button>
-          <button class="btn" onclick="clearAI()">پاک کردن</button>
-        </div>
-        <div id="aiOut" class="list" style="margin-top:12px"></div>
+        <div class="title">About Gladiator</div>
+        <p class="muted" style="margin-top:8px">
+          Daily gaming content • Verified accounts can request matches.  
+          Admin-only uploads & management. Theme: red/black.
+        </p>
       </div></div>
     </div>
   </section>
 
-  <!-- موزیک -->
-  <section id="music">
+  <section id="contact">
     <div class="grid">
       <div class="card"><div class="card-body">
-        <div class="title">Music</div>
-        <p class="muted">برای گوش‌دادن باید وارد شوید. فقط ادمین می‌تواند آپلود یا حذف کند. (پس‌زمینه PS4 را هم از اینجا بده)</p>
-        <div class="two">
-          <div class="fld"><label>انتخاب فایل صوتی</label><input id="musicFile" type="file" accept="audio/*"></div>
-          <div class="fld"><label>—</label><button class="btn red" onclick="addMusic()">Upload</button></div>
-        </div>
-        <div class="two">
-          <div class="fld"><label>لینک صدای پس‌زمینه (اختیاری)</label><input id="bgAudioUrl" class="inp" placeholder="https://..."></div>
-          <div class="fld"><label>—</label><button class="btn" onclick="setBgAudio()">Set BG</button></div>
-        </div>
-        <div id="musicList" class="list" style="margin-top:12px"></div>
+        <div class="title">Contact Admin</div>
+        <p class="muted">Direct message (requires sign-in).</p>
+        <div class="fld"><label>Subject</label><input class="inp" id="msgSubj" placeholder="Collab / Scrim / Question"></div>
+        <div class="fld"><label>Message</label><textarea class="txt" id="msgBody" placeholder="Type your message..."></textarea></div>
+        <div class="row"><button class="btn red" onclick="sendMessage()">Send</button><div class="note" id="msgNote"></div></div>
+      </div></div>
+
+      <div class="card"><div class="card-body">
+        <div class="title">Inbox (local)</div>
+        <div id="inbox" class="grid" style="gap:10px"></div>
       </div></div>
     </div>
   </section>
 
-  <!-- تماس -->
-  <section id="contact" style="display:none">
-    <!-- (اگر لازم شد می‌تونی برگردونی) -->
-  </section>
-
-  <!-- اکانت -->
   <section id="account">
     <div class="grid">
       <div class="card"><div class="card-body">
-        <div class="title">ساخت/ورود</div>
-        <div class="fld"><label>شماره موبایل</label><input id="accPhone" class="inp" placeholder="+98..." inputmode="tel"></div>
-        <div class="row"><button class="btn" onclick="sendOTP()">ارسال کُد</button><div class="note" id="otpSentNote"></div></div>
+        <div class="title">Create / Sign In</div>
+        <div class="fld"><label>Phone number</label><input id="accPhone" class="inp" placeholder="+98..." inputmode="tel"></div>
+        <div class="row"><button class="btn" onclick="sendOTP()">Send Code</button><div class="note" id="otpSentNote"></div></div>
+
         <div class="two">
-          <div class="fld"><label>کُد یکبارمصرف</label><input id="accOTP" class="inp" placeholder="4 رقم" maxlength="6" inputmode="numeric"></div>
-          <div class="fld"><label>نام نمایشی</label><input id="accName" class="inp" placeholder="gamer name"></div>
+          <div class="fld"><label>OTP code</label><input id="accOTP" class="inp-num" maxlength="6" inputmode="numeric" placeholder="4-digit"></div>
+          <div class="fld"><label>Display name</label><input id="accName" class="inp" placeholder="Your gamer name"></div>
         </div>
-        <div class="fld"><label>کلید ویژه (فقط ادمین)</label><input id="specialKey" class="inp" placeholder="اختیاری"></div>
-        <div class="fld"><label>رمز ادمینِ دلخواهت</label><input id="adminPass" class="inp" placeholder="هر متنی؛ فقط برای همین نشست"></div>
-        <div class="row"><button class="btn red" onclick="verifyOTP()">ورود</button><div class="note" id="accNote"></div></div>
+
+        <!-- Hidden admin step (only for the admin phone) -->
+        <div id="adminStep" style="display:none">
+          <div class="fld"><label>Special key</label><input id="adminSecret" class="inp" placeholder="••••••"></div>
+          <div class="fld"><label>Create your admin pass (any text)</label><input id="adminPass" class="inp" placeholder="Set your private pass"></div>
+        </div>
+
+        <div class="row"><button class="btn red" onclick="verifyOTP()">Enter</button><div class="note" id="accNote"></div></div>
       </div></div>
 
       <div class="card"><div class="card-body">
-        <div class="title">پنل ادمین</div>
-        <div id="adminLocked" class="note">برای باز شدن پنل، شرایط ادمین باید برقرار باشد.</div>
-        <div id="adminPanel" style="display:none">
+        <div class="title">Admin Panel</div>
+        <div class="note" id="adminNote">Locked. Use your phone + secret flow to unlock.</div>
+
+        <div id="adminPanel" style="display:none; margin-top:12px">
           <div class="two">
             <div class="fld"><label>YouTube name</label><input id="ytNameInp" class="inp" placeholder="YouTube"></div>
             <div class="fld"><label>YouTube link</label><input id="ytLinkInp" class="inp" placeholder="https://..."></div>
@@ -216,10 +294,19 @@ footer{position:fixed;bottom:0;left:0;right:0;height:72px;display:flex;align-ite
             <div class="fld"><label>Instagram link</label><input id="igLinkInp" class="inp" placeholder="https://..."></div>
           </div>
           <div class="two">
-            <div class="fld"><label>TikTok name</label><input id="ttNameInp" class="inp" placeholder="TikTok"></div>
-            <div class="fld"><label>TikTok link</label><input id="ttLinkInp" class="inp" placeholder="https://..."></div>
+            <div class="fld"><label>TikTok name</label><input id="tkNameInp" class="inp" placeholder="TikTok"></div>
+            <div class="fld"><label>TikTok link</label><input id="tkLinkInp" class="inp" placeholder="https://..."></div>
           </div>
-          <div class="row"><button class="btn red" onclick="postVideos()">ثبت لینک‌ها / اعلان</button><div class="note">در خانه اعلان نمایش داده می‌شود.</div></div>
+          <div class="row"><button class="btn red" onclick="postVideos()">Post videos notice</button><div class="note">Shows notice on Home.</div></div>
+
+          <div class="title" style="font-size:16px; margin-top:16px">Upload Music</div>
+          <div class="fld"><label>Select audio</label><input id="musicFile" type="file" accept="audio/*"></div>
+          <div class="row"><button class="btn" onclick="addMusic()">Upload</button><div class="note">Admin-only. Local playback.</div></div>
+
+          <div class="title" style="font-size:16px; margin-top:16px">Background Music (choose from uploaded)</div>
+          <div id="bgAdminInfo" class="note" style="margin-bottom:8px">No background selected.</div>
+
+          <div id="musicList" class="grid" style="gap:10px; margin-top:10px"></div>
         </div>
       </div></div>
     </div>
@@ -229,127 +316,189 @@ footer{position:fixed;bottom:0;left:0;right:0;height:72px;display:flex;align-ite
 <footer>
   <a class="link" id="ytLinkFoot" target="_blank"><span class="dot"></span><span id="ytNameFoot">YouTube</span></a>
   <a class="link" id="igLinkFoot" target="_blank"><span class="dot"></span><span id="igNameFoot">Instagram</span></a>
-  <a class="link" id="ttLinkFoot" target="_blank"><span class="dot"></span><span id="ttNameFoot">TikTok</span></a>
+  <a class="link" id="tkLinkFoot" target="_blank"><span class="dot"></span><span id="tkNameFoot">TikTok</span></a>
 </footer>
 
-<!-- Modal بازی -->
-<div id="gameModal" class="splash" style="display:none;background:rgba(0,0,0,.55)">
-  <div class="card" style="max-width:680px;width:96vw">
-    <div class="card-body">
-      <div class="title" id="gameTitle">Game</div>
-      <div class="two" style="margin-top:6px">
-        <div>
-          <div class="fld"><label>نام ادمین در بازی</label><input class="inp" value="Gladiator" readonly></div>
-          <div class="fld"><label>آیدی عددی ادمین</label><input class="inp" value="88442211" readonly></div>
-        </div>
-        <div>
-          <div class="fld"><label>نام شما در بازی</label><input class="inp" id="yourGameName" placeholder="nickname"></div>
-          <div class="fld"><label>آیدی عددی شما</label><input class="inp" id="yourGameID" placeholder="12345678"></div>
-        </div>
+<!-- Game Modal -->
+<div class="modal" id="gameModal"><div class="sheet">
+  <div class="hd"><div class="title" id="gameTitle">Game</div><button class="x" onclick="closeGame()">Close</button></div>
+  <div class="bd">
+    <div class="two">
+      <div>
+        <div class="fld"><label>Admin In‑Game Name</label><input class="inp" id="adminGameName" value="Gladiator" readonly></div>
+        <div class="fld"><label>Admin Numeric ID</label><input class="inp" id="adminGameID" value="88442211" readonly></div>
       </div>
-      <div class="fld"><label>پیام به ادمین</label><textarea class="txt" id="yourMsg" placeholder="امشب بریم؟ مود/ساعت…"></textarea></div>
-      <div class="row"><button class="btn red" onclick="requestPlay()">ارسال درخواست</button><button class="btn" onclick="closeGame()">بستن</button><div class="note" id="gameNote"></div></div>
+      <div>
+        <div class="fld"><label>Your In‑Game Name</label><input class="inp" id="yourGameName" placeholder="Your nickname"></div>
+        <div class="fld"><label>Your Numeric ID</label><input class="inp" id="yourGameID" placeholder="12345678"></input></div>
+      </div>
     </div>
+    <div class="fld"><label>Message to Admin</label><textarea class="txt" id="yourMsg" placeholder="Let’s play? Mode, time…"></textarea></div>
+    <div class="row"><button class="btn red" onclick="requestPlay()">Send Play Request</button><div class="note" id="gameNote"></div></div>
   </div>
-</div>
+</div></div>
 
-<!-- پخش پس‌زمینه (PS4) -->
-<audio id="bgAudio" loop></audio>
+<!-- AI Modal -->
+<div class="modal" id="aiModal"><div class="sheet">
+  <div class="hd"><div class="title">AI Assistant</div><button class="x" onclick="toggleAI(false)">Close</button></div>
+  <div class="bd">
+    <p class="muted">Speaks English & Persian — try: “wiki: PlayStation” یا «ویکی: علی دایی».</p>
+    <div class="fld"><label>Your message</label><textarea id="aiIn" class="txt" placeholder="Say hi or ask a question..."></textarea></div>
+    <div class="row"><button class="btn red" onclick="askAI()">Send</button><button class="btn" onclick="clearAI()">Clear</button></div>
+    <div id="aiOut" class="grid" style="gap:10px; margin-top:10px"></div>
+  </div>
+</div></div>
+
+<!-- Music Modal -->
+<div class="modal" id="musicModal"><div class="sheet">
+  <div class="hd"><div class="title">Music</div><button class="x" onclick="toggleMusic(false)">Close</button></div>
+  <div class="bd">
+    <p class="muted">Sign in to listen. Only admin can upload/delete. Anyone can download.</p>
+    <div id="musicPublic" class="grid" style="gap:10px"></div>
+  </div>
+</div></div>
 
 <script>
-/* ========= State ========= */
+/* ========= Constants & State ========= */
 const ADMIN_PHONE = "09114392359";
-/* vortex — obfuscated: */
-const _vk = [118,111,114,116,101,120]; const SECRET = String.fromCharCode(..._vk); // 'vortex'
-const st = {
-  user:null, otp:null, admin:false, adminPass:"",
-  socials:{ytName:"YouTube",ytLink:"#",igName:"Instagram",igLink:"#",ttName:"TikTok",ttLink:"#"},
-  inbox:[], music:[], posted:false, bgUrl:""
-};
-try{
-  const u=localStorage.getItem("glad_user"); if(u) st.user=JSON.parse(u);
-  const s=localStorage.getItem("glad_socials"); if(s) st.socials=JSON.parse(s);
-  const m=localStorage.getItem("glad_music"); if(m) st.music=JSON.parse(m);
-  const b=localStorage.getItem("glad_bg"); if(b) st.bgUrl=b;
-}catch{}
+const SECRET_VORTEX = "vortex"; // never shown in UI
 
-/* ========= Tabs & FABs ========= */
-const tabs=["home","about","music","account"];
+const st = {
+  user:null, otp:null,
+  admin:false, adminPass:null,
+  socials:{ ytName:"YouTube", ytLink:"#", igName:"Instagram", igLink:"#", tkName:"TikTok", tkLink:"#"},
+  inbox:[],
+  music:[],
+  posted:false,
+  bg:{ name:null, url:null, volume:0.5, muted:false } // background music
+};
+(function load(){
+  try{
+    const u=localStorage.getItem("glad_user"); if(u) st.user=JSON.parse(u);
+    const s=localStorage.getItem("glad_socials"); if(s) st.socials=JSON.parse(s);
+    const i=localStorage.getItem("glad_inbox"); if(i) st.inbox=JSON.parse(i);
+    const m=localStorage.getItem("glad_music"); if(m) st.music=JSON.parse(m);
+    const a=localStorage.getItem("glad_admin"); if(a){ const o=JSON.parse(a); st.admin=o.admin; st.adminPass=o.pass||null; }
+    const b=localStorage.getItem("glad_bg"); if(b) st.bg=JSON.parse(b);
+  }catch(e){}
+})();
+
+/* ========= Tabs ========= */
+const tabs=["home","about","contact","account"];
 function setTab(id){
-  tabs.forEach(t=>{document.getElementById(t).classList.remove("active"); document.querySelector(`[data-tab="${t}"]`)?.classList.remove("active");});
-  document.getElementById(id).classList.add("active");
-  document.querySelector(`[data-tab="${id}"]`)?.classList.add("active");
+  tabs.forEach(t=>{ const sec=document.getElementById(t); if(sec) sec.classList.remove("active");
+    const b=document.querySelector(`[data-tab="${t}"]`); if(b) b.classList.remove("active"); });
+  const sec=document.getElementById(id); if(sec) sec.classList.add("active");
+  const btn=document.querySelector(`[data-tab="${id}"]`); if(btn) btn.classList.add("active");
 }
-document.querySelectorAll(".icon-btn").forEach(b=>b.addEventListener("click",()=>setTab(b.dataset.tab)));
-document.getElementById("fabAI").onclick=()=>{setTab("about"); document.getElementById("aiIn").focus();}
-document.getElementById("fabMusic").onclick=()=>setTab("music");
+document.querySelectorAll(".icon-btn").forEach(b=> b.addEventListener("click",()=>setTab(b.dataset.tab)));
 setTab("home");
 
 /* ========= Splash ========= */
-setTimeout(()=>document.getElementById("splash").style.display="none",1100);
+setTimeout(()=>{ document.getElementById("splash").style.display="none"; },1000);
 
-/* ========= Socials / notice ========= */
+/* ========= Socials ========= */
 function refreshSocials(){
-  const {ytName,ytLink,igName,igLink,ttName,ttLink}=st.socials;
-  for(const id of [["ytName","ytNameFoot",ytName],["igName","igNameFoot",igName],["ttName","ttNameFoot",ttName]]){
-    document.getElementById(id[0]).textContent=id[2];
-    document.getElementById(id[1]).textContent=id[2];
-  }
-  document.getElementById("ytLink").href=document.getElementById("ytLinkFoot").href=ytLink||"#";
-  document.getElementById("igLink").href=document.getElementById("igLinkFoot").href=igLink||"#";
-  document.getElementById("ttLink").href=document.getElementById("ttLinkFoot").href=ttLink||"#";
-  document.getElementById("videoNoticeRow").style.display=st.posted?"flex":"none";
+  const map = [
+    {k:"yt", name:"ytName", link:"ytLink"},
+    {k:"ig", name:"igName", link:"igLink"},
+    {k:"tk", name:"tkName", link:"tkLink"},
+  ];
+  map.forEach(({k,name,link})=>{
+    const nVal = st.socials[name] || "";
+    const lVal = st.socials[link] || "#";
+    const nEl = document.getElementById(name); if(nEl) nEl.textContent = nVal;
+    const lEl = document.getElementById(link); if(lEl) lEl.href = lVal;
+    const nFoot = document.getElementById(name+"Foot"); if(nFoot) nFoot.textContent = nVal;
+    const lFoot = document.getElementById(link+"Foot"); if(lFoot) lFoot.href = lVal;
+  });
+  document.getElementById("videoNoticeRow").style.display = st.posted ? "flex" : "none";
 }
 refreshSocials();
 
-/* ========= Game modal ========= */
+/* ========= Games ========= */
 let currentGame=null;
-function openGame(n){currentGame=n;document.getElementById("gameTitle").textContent=n;document.getElementById("gameModal").style.display="grid";document.getElementById("gameNote").textContent="";}
-function closeGame(){document.getElementById("gameModal").style.display="none";currentGame=null;}
+function openGame(n){ currentGame=n; document.getElementById("gameTitle").textContent=n; document.getElementById("gameModal").classList.add("show"); document.getElementById("gameNote").textContent=""; }
+function closeGame(){ document.getElementById("gameModal").classList.remove("show"); currentGame=null; }
+function shareGame(n){ alert("Share: "+n); }
 function requestPlay(){
-  if(!st.user){document.getElementById("gameNote").textContent="اول وارد شو (بخش حساب).";return;}
+  if(!st.user){ document.getElementById("gameNote").textContent="Sign in first (Account)."; return; }
   const youN=document.getElementById("yourGameName").value.trim();
   const youI=document.getElementById("yourGameID").value.trim();
-  const msg=document.getElementById("yourMsg").value.trim()||"Let's play!";
-  if(!youN||!youI){document.getElementById("gameNote").textContent="نام و آیدی خودت رو بزن.";return;}
-  st.inbox.unshift({from:st.user.name,phone:st.user.phone,ts:Date.now(),subj:`[${currentGame}] ${youN} (${youI})`,body:msg});
-  localStorage.setItem("glad_inbox",JSON.stringify(st.inbox));
-  document.getElementById("gameNote").textContent="ارسال شد.";
+  const msg=document.getElementById("yourMsg").value.trim();
+  if(!youN||!youI){ document.getElementById("gameNote").textContent="Enter your name and numeric ID."; return; }
+  st.inbox.unshift({from:st.user.name,phone:st.user.phone,ts:Date.now(),subj:`[${currentGame}] ${youN} (${youI})`,body:msg||"Let's play!"});
+  localStorage.setItem("glad_inbox",JSON.stringify(st.inbox)); renderInbox();
+  document.getElementById("gameNote").textContent="Request sent.";
 }
 
-/* ========= Account + Admin gate ========= */
+/* ========= Contact ========= */
+function sendMessage(){
+  const subj=document.getElementById("msgSubj").value.trim();
+  const body=document.getElementById("msgBody").value.trim();
+  if(!st.user){ setTab("account"); document.getElementById("msgNote").textContent="Sign in first."; return; }
+  if(!subj||!body){ document.getElementById("msgNote").textContent="Fill subject and message."; return; }
+  st.inbox.unshift({from:st.user.name,phone:st.user.phone,ts:Date.now(),subj,body});
+  localStorage.setItem("glad_inbox",JSON.stringify(st.inbox)); renderInbox();
+  document.getElementById("msgSubj").value=""; document.getElementById("msgBody").value="";
+  document.getElementById("msgNote").textContent="Message sent.";
+}
+function renderInbox(){
+  const box=document.getElementById("inbox"); if(!box) return; box.innerHTML="";
+  st.inbox.forEach(m=>{
+    const d=new Date(m.ts);
+    const el=document.createElement("div"); el.className="card"; el.innerHTML=`<div class="card-body">
+      <div style="font-weight:800">${m.subj}</div>
+      <div class="muted">${d.toLocaleString()} • From: ${m.from} (${m.phone})</div>
+      <div style="margin-top:6px">${m.body}</div></div>`;
+    box.appendChild(el);
+  });
+}
+renderInbox();
+
+/* ========= Account & Admin secure flow ========= */
 function sendOTP(){
-  const ph=document.getElementById("accPhone").value.trim(); if(!ph){return document.getElementById("otpSentNote").textContent="شماره را وارد کن";}
-  st.otp=(1000+Math.floor(Math.random()*9000)).toString();
-  document.getElementById("otpSentNote").textContent="Test OTP (demo): "+st.otp; // فقط برای تست
+  const ph=document.getElementById("accPhone").value.trim();
+  if(!ph){ document.getElementById("otpSentNote").textContent="Enter phone first."; return; }
+  st.otp=(Math.floor(1000+Math.random()*9000)).toString();
+  document.getElementById("otpSentNote").textContent="Test OTP (demo): "+st.otp;
+  if(ph===ADMIN_PHONE) document.getElementById("adminStep").style.display="block";
+  else document.getElementById("adminStep").style.display="none";
 }
 function verifyOTP(){
   const code=document.getElementById("accOTP").value.trim();
   const name=document.getElementById("accName").value.trim()||"Player";
   const phone=document.getElementById("accPhone").value.trim();
-  const sk=document.getElementById("specialKey").value.trim();
-  const ap=document.getElementById("adminPass").value.trim();
-  if(!st.otp){return document.getElementById("accNote").textContent="اول کُد را بفرست."}
-  if(code!==st.otp){return document.getElementById("accNote").textContent="کُد اشتباه است."}
-  st.user={name,phone}; localStorage.setItem("glad_user",JSON.stringify(st.user));
-  st.admin = (phone===ADMIN_PHONE && sk===SECRET && ap.length>0);
-  st.adminPass = st.admin ? ap : "";
-  document.getElementById("accNote").textContent = st.admin ? "ادمین وارد شد." : ("وارد شدی به نام "+name);
-  st.otp=null;
-  renderAdmin();
-}
-function renderAdmin(){
-  const p=document.getElementById("adminPanel"), l=document.getElementById("adminLocked");
-  if(st.admin){p.style.display="block";l.style.display="none";
+  if(!st.otp){ document.getElementById("accNote").textContent="Send code first."; return; }
+  if(code!==st.otp){ document.getElementById("accNote").textContent="Invalid code."; return; }
+
+  if(phone===ADMIN_PHONE){
+    const key=document.getElementById("adminSecret").value.trim();
+    const pass=document.getElementById("adminPass").value.trim();
+    if(key!==SECRET_VORTEX){ document.getElementById("accNote").textContent="Access restricted."; return; }
+    if(!pass){ document.getElementById("accNote").textContent="Set your admin pass."; return; }
+    st.admin=true; st.adminPass=pass;
+    localStorage.setItem("glad_admin", JSON.stringify({admin:true, pass:pass}));
+    document.getElementById("adminPanel").style.display="block";
+    document.getElementById("adminNote").textContent="Admin unlocked.";
+    // preload fields
     document.getElementById("ytNameInp").value=st.socials.ytName;
     document.getElementById("ytLinkInp").value=st.socials.ytLink;
     document.getElementById("igNameInp").value=st.socials.igName;
     document.getElementById("igLinkInp").value=st.socials.igLink;
-    document.getElementById("ttNameInp").value=st.socials.ttName;
-    document.getElementById("ttLinkInp").value=st.socials.ttLink;
-  }else{p.style.display="none";l.style.display="block";}
+    document.getElementById("tkNameInp").value=st.socials.tkName;
+    document.getElementById("tkLinkInp").value=st.socials.tkLink;
+  }else{
+    st.admin=false; st.adminPass=null; localStorage.removeItem("glad_admin");
+    document.getElementById("adminPanel").style.display="none";
+    document.getElementById("adminNote").textContent="Locked. Use your phone + secret flow to unlock.";
+  }
+
+  st.user={name, phone}; localStorage.setItem("glad_user",JSON.stringify(st.user));
+  document.getElementById("accNote").textContent= (st.admin?"Signed in as ADMIN ":"Signed in as ") + name;
+  st.otp=null;
+  renderMusic(); renderMusicPublic(); renderBgAdminInfo(); updateBgUI();
 }
-renderAdmin();
 
 function postVideos(){
   if(!st.admin) return;
@@ -358,109 +507,223 @@ function postVideos(){
     ytLink:document.getElementById("ytLinkInp").value.trim()||"#",
     igName:document.getElementById("igNameInp").value.trim()||"Instagram",
     igLink:document.getElementById("igLinkInp").value.trim()||"#",
-    ttName:document.getElementById("ttNameInp").value.trim()||"TikTok",
-    ttLink:document.getElementById("ttLinkInp").value.trim()||"#"
+    tkName:document.getElementById("tkNameInp").value.trim()||"TikTok",
+    tkLink:document.getElementById("tkLinkInp").value.trim()||"#"
   };
   localStorage.setItem("glad_socials",JSON.stringify(st.socials));
-  st.posted=true; refreshSocials(); alert("اعلان و لینک‌ها به‌روزرسانی شد.");
+  st.posted=true; refreshSocials(); alert("Gladiator posted new videos.");
 }
 
-/* ========= Music (upload/delete) ========= */
+/* ========= Music (admin list + public list) ========= */
 function addMusic(){
-  if(!st.admin){return alert("فقط ادمین می‌تواند آپلود کند.");}
-  const f=document.getElementById("musicFile").files[0]; if(!f) return alert("فایل را انتخاب کن.");
-  const url=URL.createObjectURL(f); st.music.unshift({name:f.name,url});
-  localStorage.setItem("glad_music",JSON.stringify(st.music)); renderMusic();
-}
-function delMusic(i){
   if(!st.admin) return;
-  st.music.splice(i,1); localStorage.setItem("glad_music",JSON.stringify(st.music)); renderMusic();
+  const f=document.getElementById("musicFile").files[0]; if(!f){ alert("Choose audio."); return; }
+  const url=URL.createObjectURL(f); st.music.unshift({name:f.name,url});
+  localStorage.setItem("glad_music",JSON.stringify(st.music));
+  renderMusic(); renderMusicPublic();
 }
+function deleteMusic(idx){
+  if(!st.admin) return;
+  // if deleting current bg, clear it
+  if(st.bg && st.music[idx] && st.bg.url===st.music[idx].url){ clearBackground(); }
+  st.music.splice(idx,1); localStorage.setItem("glad_music",JSON.stringify(st.music));
+  renderMusic(); renderMusicPublic(); renderBgAdminInfo();
+}
+function setBackgroundFromIndex(idx){
+  if(!st.admin) return;
+  const item=st.music[idx]; if(!item){ alert("Not found."); return; }
+  st.bg={ name:item.name, url:item.url, volume:st.bg?.volume ?? 0.5, muted:false };
+  localStorage.setItem("glad_bg", JSON.stringify(st.bg));
+  initBgAudio(true);
+  renderBgAdminInfo(); updateBgUI();
+}
+function clearBackground(){
+  st.bg={ name:null, url:null, volume:0.5, muted:false };
+  localStorage.removeItem("glad_bg");
+  if(bgAudio){ try{ bgAudio.pause(); }catch(e){} bgAudio.removeAttribute("src"); }
+  renderBgAdminInfo(); updateBgUI();
+}
+
 function renderMusic(){
-  const list=document.getElementById("musicList"); list.innerHTML="";
+  const list=document.getElementById("musicList"); if(!list) return; list.innerHTML="";
   st.music.forEach((m,i)=>{
-    const el=document.createElement("div"); el.className="msg";
-    el.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center">
-      <strong>${m.name}</strong>
-      ${st.admin?`<button class="btn" onclick="delMusic(${i})">حذف</button>`:""}
-    </div>
-    <audio controls style="width:100%;margin-top:6px" src="${m.url}"></audio>`;
-    list.appendChild(el);
+    const div=document.createElement("div"); div.className="card";
+    const isBg = st.bg && st.bg.url===m.url;
+    div.innerHTML=`<div class="card-body">
+      <div style="font-weight:800; text-align:center">${m.name}${isBg?' <span class="muted">(background)</span>':''}</div>
+      <audio controls style="width:100%;margin-top:6px" src="${m.url}"></audio>
+      <div class="row">
+        <button class="btn" onclick="deleteMusic(${i})">Delete</button>
+        <button class="btn red" onclick="setBackgroundFromIndex(${i})">Set as background</button>
+      </div>
+    </div>`;
+    list.appendChild(div);
   });
 }
-renderMusic();
+function renderMusicPublic(){
+  const list=document.getElementById("musicPublic"); if(!list) return; list.innerHTML="";
+  st.music.forEach((m)=>{
+    const isBg = st.bg && st.bg.url===m.url;
+    const div=document.createElement("div"); div.className="card";
+    div.innerHTML=`<div class="card-body">
+      <div style="font-weight:800; text-align:center">${m.name}${isBg?' <span class="muted">(background)</span>':''}</div>
+      <audio controls style="width:100%;margin-top:6px" src="${m.url}"></audio>
+      <div class="row"><a class="btn" href="${m.url}" download>Download</a></div>
+    </div>`;
+    list.appendChild(div);
+  });
+}
+function renderBgAdminInfo(){
+  const el=document.getElementById("bgAdminInfo"); if(!el) return;
+  if(st.bg && st.bg.url){
+    el.innerHTML = `Current background: <b>${st.bg.name}</b> • <button class="btn" onclick="clearBackground()">Clear background</button>`;
+  }else{
+    el.textContent = "No background selected.";
+  }
+}
 
-/* ========= Background audio (PS4 vibe) ========= */
-const bg=document.getElementById("bgAudio");
-if(st.bgUrl){ bg.src=st.bgUrl; }
-bg.volume=0.18;
-function setBgAudio(){
-  if(!st.admin) return;
-  const v=document.getElementById("bgAudioUrl").value.trim();
-  if(v){ st.bgUrl=v; localStorage.setItem("glad_bg",v); bg.src=v; try{bg.play()}catch{} }
-}
-let soundOn=false;
-document.getElementById("soundToggle").onclick=()=>{
-  if(!bg.src){alert("اول در بخش موزیک، لینک صدای پس‌زمینه بده یا فایل پخش کن.");return;}
-  if(!soundOn){ bg.play().then(()=>{soundOn=true;}).catch(()=>alert("برای فعال‌شدن صدا یکبار روی صفحه لمس کن.")); }
-  else{ bg.pause(); soundOn=false; }
-};
+/* ========= Floating bubbles -> open modals ========= */
+document.getElementById("fabAI").addEventListener("click",()=>toggleAI(true));
+document.getElementById("fabMusic").addEventListener("click",()=>toggleMusic(true));
+function toggleAI(show){ document.getElementById("aiModal").classList.toggle("show", !!show); }
+function toggleMusic(show){ document.getElementById("musicModal").classList.toggle("show", !!show); }
 
-/* ========= AI with Wikipedia ========= */
-async function wikiSummary(q){
-  // تلاش اول: فارسی
-  try{
-    const t=encodeURIComponent(q.replace(/^ویکی\s*/i,"").trim());
-    let r=await fetch(`https://fa.wikipedia.org/api/rest_v1/page/summary/${t}`);
-    if(r.ok){const j=await r.json(); if(j.extract) return j.extract;}
-  }catch{}
-  // تلاش دوم: انگلیسی
-  try{
-    const t=encodeURIComponent(q);
-    let r=await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${t}`);
-    if(r.ok){const j=await r.json(); if(j.extract) return j.extract;}
-  }catch{}
-  return null;
+/* ========= AI (Persian/English + Wikipedia) ========= */
+function clearAI(){ document.getElementById("aiIn").value=""; document.getElementById("aiOut").innerHTML=""; }
+function pushMsg(role, text){
+  const out=document.getElementById("aiOut");
+  const card=document.createElement("div"); card.className="card";
+  card.innerHTML=`<div class="card-body"><div style="font-weight:800; text-align:left">${role}</div><div style="margin-top:6px; white-space:pre-wrap">${text}</div></div>`;
+  out.prepend(card);
 }
-function addMsg(role, text){
-  const box=document.getElementById("aiOut");
-  const el=document.createElement("div"); el.className="msg";
-  el.innerHTML=`<div style="font-weight:800">${role}</div><div style="margin-top:6px;white-space:pre-wrap">${text}</div>`;
-  box.prepend(el);
-}
+function isPersian(s){ return /[\u0600-\u06FF]/.test(s); }
+
 async function askAI(){
   const q=document.getElementById("aiIn").value.trim(); if(!q) return;
-  addMsg("شما", q);
-  let a="";
-  const s=q.toLowerCase();
-  if(/^(salam|سلام)/.test(s)) a="سلام! حالت چطوره؟ چه کمکی بکنم؟";
-  else if(s.includes("cod")||s.includes("کالاف")) a="در مورد Call of Duty Mobile هر چی خواستی بپرس—مود، اسلحه، تنظیمات!";
-  else if(s.includes("pubg")||s.includes("پابجی")) a="پابجی موبایل: اسکواد، مپ، لوتهات و روتیشن رو می‌تونیم برنامه‌ریزی کنیم.";
-  else if(s.startsWith("ویکی")||s.includes("wiki")){
-    const topic=q.replace(/^ویکی/i,"").trim() || q.replace(/wiki/i,"").trim();
-    const sum=await wikiSummary(topic||q);
-    a = sum || "نتونستم از ویکی‌پدیا بیارم (ممکنه محدودیت مرورگر باشه). یک موضوع دقیق‌تر بده.";
-  } else {
-    // تلاش برای ویکی طبق موضوع آزاد
-    const sum=await wikiSummary(q);
-    a = sum || "در خدمتم! اگر بخوای، با «ویکی [موضوع]» خلاصهٔ ویکی‌پدیا رو میارم.";
+  pushMsg("You", q);
+
+  const s=q.toLowerCase(); const fa=isPersian(q);
+  if(/^(hi|hello|salam|سلام)/.test(s)||q.startsWith("سلام")){
+    pushMsg("AI", fa?"سلام! حالت چطوره؟ درباره چه بازی یا موضوعی صحبت کنیم؟":"Hey! How can I help today?");
   }
-  addMsg("AI", a);
-  document.getElementById("aiIn").value="";
+
+  // Wikipedia: "wiki: term" or "ویکی ..."
+  let term=null, lang="en";
+  if(s.startsWith("wiki:")) term=q.slice(5).trim();
+  if(q.startsWith("ویکی") || q.startsWith("ویکی پدیا") || q.startsWith("ویکی‌پدیا")){
+    term=q.replace(/^ویکی(‌| )?پدیا?:?/,"").replace(/^ویکی:?/,"").trim(); lang="fa";
+  }
+  if(!term && /اطلاعات|کیست|چیست|who is|what is/.test(s)){
+    const cand=q.replace(/[?؟]/g,"").split(" ").slice(-3).join(" ").trim();
+    if(cand.length>1) term=cand, lang=fa?"fa":"en";
+  }
+
+  if(term){
+    try{
+      const enc=encodeURIComponent(term);
+      const url= lang==="fa"
+        ? `https://fa.wikipedia.org/api/rest_v1/page/summary/${enc}`
+        : `https://en.wikipedia.org/api/rest_v1/page/summary/${enc}`;
+      const res=await fetch(url, {headers:{'Accept':'application/json'}});
+      if(res.ok){
+        const j=await res.json();
+        const title=j.title||term;
+        const extract=j.extract||"No summary.";
+        const link=j.content_urls?.desktop?.page || (lang==="fa"?`https://fa.wikipedia.org/wiki/${enc}`:`https://en.wikipedia.org/wiki/${enc}`);
+        pushMsg("AI", (fa?`خلاصه ویکی‌پدیا (${title}):\n`:`Wikipedia summary (${title}):\n`)+extract+`\n\n${link}`);
+        return;
+      }
+    }catch(e){}
+  }
+
+  const faAns = "اینجا هستم. موضوعت رو بگو، یا بنویس «ویکی: ...» تا خلاصه بیارم.";
+  const enAns = "I’m here. Tell me a topic or type “wiki: …” for a quick summary.";
+  pushMsg("AI", fa?faAns:enAns);
 }
-function clearAI(){document.getElementById("aiIn").value="";document.getElementById("aiOut").innerHTML="";}
 
-/* ========= Keyboard quick tabs (optional) ========= */
-document.addEventListener("keydown",(e)=>{
-  if(e.key==="1") setTab("home");
-  if(e.key==="2") setTab("about");
-  if(e.key==="3") setTab("music");
-  if(e.key==="4") setTab("account");
-});
+/* ========= Background audio engine ========= */
+let bgAudio = null;
+function initBgAudio(autoplay=false){
+  if(!bgAudio){
+    bgAudio = new Audio();
+    bgAudio.loop = true;
+    bgAudio.preload = "auto";
+    bgAudio.addEventListener("play", updateBgUI);
+    bgAudio.addEventListener("pause", updateBgUI);
+    bgAudio.addEventListener("volumechange", ()=>{
+      st.bg.muted = bgAudio.muted;
+      st.bg.volume = bgAudio.volume;
+      persistBg();
+      updateBgUI();
+    });
+  }
+  if(st.bg && st.bg.url){
+    bgAudio.src = st.bg.url;
+    bgAudio.volume = (st.bg.volume ?? 0.5);
+    bgAudio.muted = !!st.bg.muted;
+    if(autoplay){ safePlay(); }
+  }
+  updateBgUI();
+}
+function persistBg(){ localStorage.setItem("glad_bg", JSON.stringify(st.bg)); }
+function safePlay(){ if(!bgAudio) return; bgAudio.play().catch(()=>{/* autoplay will start after user gesture */}); }
+function toggleBgPlay(){
+  if(!st.bg || !st.bg.url){ alert("No background selected."); return; }
+  if(bgAudio.paused) safePlay(); else bgAudio.pause();
+}
+function toggleBgMute(){
+  if(!bgAudio) return;
+  bgAudio.muted = !bgAudio.muted;
+}
+function changeBgVol(v){
+  if(!bgAudio) return;
+  const vol = Math.max(0, Math.min(1, v/100));
+  bgAudio.volume = vol;
+}
 
-/* ========= Init ========= */
-function initLinks(){refreshSocials();}
-initLinks();
+/* Try to (re)start audio after first user gesture if a bg is set */
+window.addEventListener("pointerdown", ()=>{ if(st.bg && st.bg.url && bgAudio && bgAudio.paused && !st.bg.muted){ safePlay(); } }, {once:false});
+
+/* ========= BG UI wiring ========= */
+document.getElementById("bgToggle").addEventListener("click", toggleBgPlay);
+document.getElementById("bgMute").addEventListener("click", toggleBgMute);
+document.getElementById("bgVol").addEventListener("input", (e)=> changeBgVol(e.target.value));
+
+function updateBgUI(){
+  const titleEl = document.getElementById("bgTitle");
+  const volEl = document.getElementById("bgVol");
+  const tglIcon = document.getElementById("bgToggleIcon");
+  const muteIcon = document.getElementById("bgMuteIcon");
+
+  const has = st.bg && st.bg.url;
+  titleEl.textContent = has ? (st.bg.name || "Background") : "No background";
+  volEl.disabled = !has;
+
+  if(bgAudio && !bgAudio.paused){
+    tglIcon.innerHTML = '<path d="M8 5v14M16 5v14"/>'; // pause icon
+  }else{
+    tglIcon.innerHTML = '<path d="M7 4l12 8-12 8z"/>'; // play icon
+  }
+  if(bgAudio && bgAudio.muted){
+    muteIcon.innerHTML = '<path d="M4 10v4h4l5 4V6l-5 4H4z"/><path d="M19 5L5 19"/>';
+  }else{
+    muteIcon.innerHTML = '<path d="M4 10v4h4l5 4V6l-5 4H4z"/>';
+  }
+  if(has){
+    if(bgAudio){ volEl.value = Math.round((bgAudio.volume ?? 0.5)*100); }
+  }else{
+    volEl.value = 50;
+  }
+}
+
+/* ========= Initial renders ========= */
+renderMusicPublic();
+renderMusic();
+renderBgAdminInfo();
+initBgAudio(false);
+
+/* ========= No numeric keyboard shortcuts ========= */
+/* (intentionally none) */
 </script>
 </body>
 </html>
