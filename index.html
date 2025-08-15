@@ -1,136 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
 <title>Gladiator</title>
 <style>
-  :root{
-    --bg:#0b0b0f;
-    --panel:#141420;
-    --ink:#f2f2f7;
-    --muted:#a6a6b3;
-    --line:#1f2030;
-    --red:#ff1f3d;
-    --accent:#ff2f4a;
-    --soft:#111119;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif}
+:root{
+  --bg:#0b0b0f; --soft:#111119; --panel:#141420; --ink:#f2f2f7; --muted:#a6a6b3;
+  --line:#1f2030; --red:#ff1f3d; --accent:#ff2f4a;
+}
+*{box-sizing:border-box} html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);
+  font-family: ui-rounded, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial}
+body::before,body::after{content:"";position:fixed;z-index:0;width:44vmin;height:44vmin;
+  background:radial-gradient(closest-side,rgba(255,31,61,.35),transparent 60%),
+  conic-gradient(from 0deg,rgba(255,80,100,.35),transparent 40%,rgba(255,31,61,.6),transparent 70%);
+  filter:blur(18px) saturate(140%);animation:arc 8s linear infinite;pointer-events:none}
+body::before{top:-10vmin;left:-12vmin} body::after{bottom:-12vmin;right:-10vmin;animation-direction:reverse}
+@keyframes arc{to{transform:rotate(360deg)}}
 
-  /* Ambient blobs */
-  body::before, body::after{
-    content:""; position:fixed; z-index:0; width:44vmin; height:44vmin;
-    background:
-      radial-gradient(closest-side, rgba(255,31,61,.35), transparent 60%),
-      conic-gradient(from 0deg, rgba(255,80,100,.35), transparent 40%, rgba(255,31,61,.6), transparent 70%);
-    filter: blur(18px) saturate(140%); animation: arc 8s linear infinite; pointer-events:none;
-  }
-  body::before{ top:-10vmin; left:-12vmin }
-  body::after{ bottom:-12vmin; right:-10vmin; animation-direction:reverse }
-  @keyframes arc{ to{ transform:rotate(360deg)} }
+.app{position:relative;min-height:100%;padding:88px 16px 120px;isolation:isolate}
+header{position:fixed;top:0;left:0;right:0;height:72px;z-index:10;
+  background:linear-gradient(180deg,#12121a,#0d0d14);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center}
+.brand{position:absolute;left:50%;transform:translateX(-50%);letter-spacing:.24em;font-weight:900;color:#fff}
+.nav{display:flex;gap:12px;align-items:center;position:absolute;left:10px}
+.nav.right{right:10px;left:auto}
+.icon-btn{width:52px;height:52px;border-radius:14px;border:1px solid var(--line);
+  background:linear-gradient(180deg,#161621,#11111a);display:grid;place-items:center;cursor:pointer;
+  transition:.15s transform ease;box-shadow:inset 0 0 0 1px rgba(255,47,74,.08)}
+.icon-btn:active{transform:scale(.96)} .icon-btn.active{outline:2px solid rgba(255,47,74,.55);box-shadow:0 0 0 6px rgba(255,47,74,.08) inset}
+.icon{width:26px;height:26px;fill:none;stroke:#ff4b63;stroke-width:2.2}
 
-  /* Shell */
-  .app{ position:relative; min-height:100%; padding:88px 16px 90px; isolation:isolate; }
-  header{
-    position:fixed; top:0; left:0; right:0; height:72px; z-index:10;
-    background:linear-gradient(180deg,#12121a,#0d0d14); border-bottom:1px solid var(--line);
-    display:flex; align-items:center; justify-content:center;
-  }
-  .brand{ position:absolute; left:50%; transform:translateX(-50%); letter-spacing:.24em; font-weight:900; color:#fff }
-  .nav{ display:flex; gap:12px; align-items:center; position:absolute; left:10px }
-  .nav.right{ right:10px; left:auto }
-  .icon-btn{
-    width:52px; height:52px; border-radius:14px; border:1px solid var(--line);
-    background:linear-gradient(180deg,#161621,#11111a);
-    display:grid; place-items:center; cursor:pointer; transition:.15s transform ease; box-shadow:inset 0 0 0 1px rgba(255,47,74,.08)
-  }
-  .icon-btn:active{ transform:scale(.96) }
-  .icon-btn.active{ outline:2px solid rgba(255,47,74,.55); box-shadow:0 0 0 6px rgba(255,47,74,.08) inset }
-  .icon{ width:26px; height:26px; fill:none; stroke:#ff4b63; stroke-width:2.2 }
+section{display:none} section.active{display:block}
+.grid{display:grid;gap:18px;max-width:980px;margin:0 auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.card{background:linear-gradient(180deg,#151522,#11111a);border:1px solid var(--line);
+  border-radius:18px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.3),inset 0 0 0 1px rgba(255,47,74,.05)}
+.card-body{padding:16px}
+.title{font-weight:900;letter-spacing:.08em;font-size:18px}
+.muted{color:var(--muted);font-size:13px;margin-top:6px}
+.row{display:flex;gap:10px;align-items:center;margin-top:12px}
+.btn{padding:10px 14px;border-radius:12px;border:1px solid var(--line);
+  background:linear-gradient(180deg,#1a1a28,#131320);color:#fff;font-weight:800;letter-spacing:.06em;
+  cursor:pointer;transition:.15s transform ease}
+.btn.red{background:linear-gradient(180deg,#ff2347,#e41836);border-color:#c20f29;box-shadow:0 4px 18px rgba(255,35,71,.35)}
+.btn:active{transform:translateY(1px)}
+.small{font-size:12px}
 
-  /* Sections */
-  section{ display:none }
-  section.active{ display:block }
-  .grid{ display:grid; gap:18px; max-width:980px; margin:0 auto }
-  .cards{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px }
-  .card{ background:linear-gradient(180deg,#151522,#11111a); border:1px solid var(--line); border-radius:18px; overflow:hidden; box-shadow:0 8px 30px rgba(0,0,0,.3), inset 0 0 0 1px rgba(255,47,74,.05) }
-  .card-body{ padding:14px 14px 16px }
-  .title{ font-weight:900; letter-spacing:.08em; font-size:18px; text-align:center }
-  .muted{ color:var(--muted); font-size:13px; margin-top:6px; text-align:center }
-  .row{ display:flex; gap:10px; align-items:center; margin-top:12px; justify-content:center }
-  .btn{
-    padding:10px 14px; border-radius:12px; border:1px solid var(--line);
-    background:linear-gradient(180deg,#1a1a28,#131320); color:#fff; font-weight:800; letter-spacing:.06em;
-    cursor:pointer; transition:.15s transform ease
-  }
-  .btn.red{ background:linear-gradient(180deg,#ff2347,#e41836); border-color:#c20f29; box-shadow:0 4px 18px rgba(255,35,71,.35) }
-  .btn:active{ transform:translateY(1px) }
+.thumbName{height:140px;display:grid;place-items:center;border-bottom:1px solid var(--line);background:#0f0f16}
+.g-name{font:900 20px/1.2 "Segoe UI",system-ui;letter-spacing:.18em;color:#ff304b;text-shadow:0 0 18px rgba(255,50,80,.45)}
 
-  /* Game thumbs (name only) */
-  .thumbName{
-    height:140px; display:grid; place-items:center; border-bottom:1px solid var(--line); background:#0f0f16
-  }
-  .g-name{ font: 900 20px/1.2 "Segoe UI", system-ui; letter-spacing:.18em; color:#ff304b; text-shadow:0 0 18px rgba(255,50,80,.45); text-align:center }
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:18px;z-index:20;background:rgba(0,0,0,.55)}
+.modal.show{display:flex}
+.sheet{width:min(760px,96vw);background:linear-gradient(180deg,#151521,#101018);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.sheet .hd{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}
+.sheet .bd{padding:16px}
+.x{background:#191927;border:1px solid var(--line);color:#fff;border-radius:10px;padding:8px 12px;cursor:pointer}
+.fld{display:grid;gap:8px;margin:10px 0}
+.fld label{font-size:13px;color:var(--muted)}
+.inp,.txt,.inp-num,select{width:100%;background:#10101a;color:#fff;border:1px solid var(--line);padding:12px;border-radius:12px}
+.txt{min-height:90px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.note{color:var(--muted);font-size:12px}
 
-  /* Modal (shared) */
-  .modal{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:18px; z-index:20; background:rgba(0,0,0,.55) }
-  .modal.show{ display:flex }
-  .sheet{ width:min(760px,96vw); background:linear-gradient(180deg,#151521,#101018); border:1px solid var(--line); border-radius:18px; overflow:hidden }
-  .sheet .hd{ display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--line) }
-  .sheet .bd{ padding:16px }
-  .x{ background:#191927; border:1px solid var(--line); color:#fff; border-radius:10px; padding:8px 12px; cursor:pointer }
+/* FABs */
+.fab{position:fixed;right:16px;z-index:12;width:64px;height:64px;border-radius:50%;border:1px solid var(--line);
+  background:radial-gradient(circle at 30% 30%,rgba(255,47,74,.18),#12121c 60%);display:grid;place-items:center;
+  cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,47,74,.08)}
+.fab svg{width:30px;height:30px;stroke:#ff4b63;fill:none;stroke-width:2.2}
+.fab.ai{bottom:92px} .fab.music{bottom:16px}
 
-  .fld{ display:grid; gap:8px; margin:10px 0 }
-  .fld label{ font-size:13px; color:var(--muted) }
-  .inp,.txt,.inp-num{ width:100%; background:#10101a; color:#fff; border:1px solid var(--line); padding:12px; border-radius:12px }
-  .txt{ min-height:90px; resize:vertical }
-  .two{ display:grid; grid-template-columns:1fr 1fr; gap:10px }
-  .note{ color:var(--muted); font-size:12px }
+/* Background mini player (oval) */
+.player{position:fixed;left:16px;right:120px;bottom:16px;height:64px;border-radius:24px;
+  background:linear-gradient(180deg,#151522,#0f0f16);border:1px solid var(--line);
+  display:flex;align-items:center;gap:12px;padding:0 14px;z-index:11;box-shadow:0 10px 28px rgba(0,0,0,.35)}
+.pbtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:#11111a;
+  display:grid;place-items:center;cursor:pointer}
+.pbtn svg{width:22px;height:22px;stroke:#ff4b63;fill:none;stroke-width:2.2}
+.range{flex:1}
+.trackname{min-width:140px;max-width:55vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-  /* Floating action bubbles (AI, Music) — bottom-right */
-  .fab{
-    position:fixed; right:16px; z-index:9; width:64px; height:64px; border-radius:50%;
-    border:1px solid var(--line); background:radial-gradient(circle at 30% 30%, rgba(255,47,74,.18), #12121c 60%);
-    display:grid; place-items:center; cursor:pointer; box-shadow:0 10px 28px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,47,74,.08)
-  }
-  .fab svg{ width:30px; height:30px; stroke:#ff4b63; fill:none; stroke-width:2.2 }
-  .fab.ai{ bottom: 88px }
-  .fab.music{ bottom: 16px }
+/* Footer socials */
+footer{position:fixed;bottom:84px;left:0;right:0;height:0;display:flex;justify-content:center;z-index:8}
+.link{display:flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;border:1px solid var(--line);
+  background:#12121c;color:#fff;text-decoration:none;font-size:13px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:0 0 10px rgba(255,47,74,.9)}
 
-  /* Background audio mini-panel — bottom-left */
-  .bgctl{
-    position:fixed; left:16px; bottom:16px; z-index:9;
-    display:flex; align-items:center; gap:8px;
-    padding:8px 12px; border-radius:14px; border:1px solid var(--line);
-    background:linear-gradient(180deg,#12121c,#0d0d14);
-    box-shadow:0 10px 28px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,47,74,.06);
-  }
-  .mini-btn{
-    width:36px; height:36px; border-radius:10px; border:1px solid var(--line);
-    background:#171726; display:grid; place-items:center; cursor:pointer
-  }
-  .mini-btn svg{ width:20px; height:20px; stroke:#ff4b63; fill:none; stroke-width:2 }
-  .bgtitle{ font-size:12px; color:var(--muted); max-width:160px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
-  .bgvol{ width:120px }
-
-  /* Footer socials */
-  footer{ position:fixed; bottom:0; left:0; right:0; height:72px; display:flex; align-items:center; justify-content:center; gap:14px; border-top:1px solid var(--line); background:linear-gradient(180deg,#0f0f16,#0b0b11); z-index:8 }
-  .link{ display:flex; gap:8px; align-items:center; padding:8px 12px; border-radius:999px; border:1px solid var(--line); background:#12121c; color:#fff; text-decoration:none; font-size:13px }
-  .dot{ width:10px; height:10px; border-radius:50%; background:var(--red); box-shadow:0 0 10px rgba(255,47,74,.9) }
-
-  /* Splash */
-  .splash{ position:fixed; inset:0; display:grid; place-items:center; background:radial-gradient(1200px 700px at 50% 80%, rgba(255,47,74,.08), transparent), #0a0a0e; z-index:30 }
-  .sp-title{ font-size:36px; font-weight:900; letter-spacing:.25em; color:#ff304b; text-shadow:0 0 20px rgba(255,50,80,.55) }
-  .spinner{ margin-top:14px; width:62px; height:62px; border-radius:50%; border:3px solid rgba(255,47,74,.35); border-top-color:#ff2f4a; animation:spin 1.1s linear infinite }
-  @keyframes spin{ to{ transform:rotate(360deg)} }
-
-  @media (max-width:540px){
-    .thumbName{ height:120px }
-    .g-name{ font-size:18px }
-    .bgtitle{ max-width:110px }
-    .bgvol{ width:90px }
-  }
+.splash{position:fixed;inset:0;display:grid;place-items:center;background:
+  radial-gradient(1200px 700px at 50% 80%,rgba(255,47,74,.08),transparent),#0a0a0e;z-index:30}
+.sp-title{font-size:36px;font-weight:900;letter-spacing:.25em;color:#ff304b;text-shadow:0 0 20px rgba(255,50,80,.55)}
+.spinner{margin-top:14px;width:62px;height:62px;border-radius:50%;border:3px solid rgba(255,47,74,.35);border-top-color:#ff2f4a;animation:spin 1.1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (max-width:540px){.thumbName{height:120px}.g-name{font-size:18px}}
 </style>
 </head>
 <body>
@@ -138,7 +99,7 @@
 <!-- Splash -->
 <div class="splash" id="splash">
   <div style="text-align:center">
-    <div class="sp-title">hello spartan</div>
+    <div class="sp-title">GLADIATOR</div>
     <div class="spinner"></div>
   </div>
 </div>
@@ -163,7 +124,7 @@
   </div>
 </header>
 
-<!-- Floating bubbles (bottom-right) -->
+<!-- FABs -->
 <button class="fab ai" id="fabAI" title="AI">
   <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M8 12h8M12 8v8"/></svg>
 </button>
@@ -171,54 +132,81 @@
   <svg viewBox="0 0 24 24"><path d="M9 18a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM15 6v10a3 3 0 1 0 2 2V8l4-1V5l-6 1z"/></svg>
 </button>
 
-<!-- Background audio control (bottom-left) -->
-<div class="bgctl" id="bgCtl">
-  <button class="mini-btn" id="bgToggle" title="Play/Pause">
-    <svg viewBox="0 0 24 24" id="bgToggleIcon"><path d="M8 5v14M16 5v14"/></svg>
+<!-- Mini Player -->
+<div class="player" id="bgPlayer">
+  <button class="pbtn" id="btnPlay" title="Play/Pause">
+    <svg viewBox="0 0 24 24" id="iconPlay"><path d="M8 5v14l11-7z"/></svg>
   </button>
-  <button class="mini-btn" id="bgMute" title="Mute/Unmute">
-    <svg viewBox="0 0 24 24" id="bgMuteIcon"><path d="M4 10v4h4l5 4V6l-5 4H4z"/></svg>
+  <button class="pbtn" id="btnMute" title="Mute">
+    <svg viewBox="0 0 24 24"><path d="M4 10h4l6-4v16l-6-4H4z"/><path d="M16 9l5 6M21 9l-5 6"/></svg>
   </button>
-  <input id="bgVol" class="bgvol" type="range" min="0" max="100" value="50" />
-  <div class="bgtitle" id="bgTitle">No background</div>
+  <input id="vol" class="range" type="range" min="0" max="1" step="0.01" value="0.4"/>
+  <select id="trackSelect" class="inp small" style="max-width:420px"></select>
+  <span class="trackname" id="trackName">No background selected.</span>
 </div>
 
 <div class="app">
   <section id="home" class="active">
     <div class="grid">
       <div class="cards">
+
+        <!-- CODM -->
         <div class="card">
           <div class="thumbName"><div class="g-name">CALL OF DUTY MOBILE</div></div>
           <div class="card-body">
             <div class="muted">Competitive FPS on mobile.</div>
+
+            <div class="row small">
+              <span>Admin IGN: <b id="codmIGN">Gladiator</b></span>
+              <span>•</span>
+              <span>Admin ID: <b id="codmID">88442211</b></span>
+            </div>
+
             <div class="row">
-              <button class="btn red" onclick="openGame('Call of Duty Mobile')">Open</button>
+              <button class="btn red" onclick="openGame('codm')">Open</button>
               <button class="btn" onclick="shareGame('Call of Duty Mobile')">Share</button>
             </div>
           </div>
         </div>
 
+        <!-- DELTA -->
         <div class="card">
           <div class="thumbName"><div class="g-name">DELTA FORCE</div></div>
           <div class="card-body">
             <div class="muted">Classic tactical action.</div>
+
+            <div class="row small">
+              <span>Admin IGN: <b id="deltaIGN">Gladiator</b></span>
+              <span>•</span>
+              <span>Admin ID: <b id="deltaID">77665544</b></span>
+            </div>
+
             <div class="row">
-              <button class="btn red" onclick="openGame('Delta Force')">Open</button>
+              <button class="btn red" onclick="openGame('delta')">Open</button>
               <button class="btn" onclick="shareGame('Delta Force')">Share</button>
             </div>
           </div>
         </div>
 
+        <!-- PUBG -->
         <div class="card">
           <div class="thumbName"><div class="g-name">PUBG MOBILE</div></div>
           <div class="card-body">
             <div class="muted">Battle royale, squad up.</div>
+
+            <div class="row small">
+              <span>Admin IGN: <b id="pubgIGN">Gladiator</b></span>
+              <span>•</span>
+              <span>Admin ID: <b id="pubgID">99112233</b></span>
+            </div>
+
             <div class="row">
-              <button class="btn red" onclick="openGame('PUBG Mobile')">Open</button>
+              <button class="btn red" onclick="openGame('pubg')">Open</button>
               <button class="btn" onclick="shareGame('PUBG Mobile')">Share</button>
             </div>
           </div>
         </div>
+
       </div>
 
       <div class="row" id="videoNoticeRow" style="display:none">
@@ -235,8 +223,7 @@
       <div class="card"><div class="card-body">
         <div class="title">About Gladiator</div>
         <p class="muted" style="margin-top:8px">
-          Daily gaming content • Verified accounts can request matches.  
-          Admin-only uploads & management. Theme: red/black.
+          Daily gaming content • Admin-only uploads • Red/black theme • Background player on the bottom.
         </p>
       </div></div>
     </div>
@@ -271,7 +258,7 @@
           <div class="fld"><label>Display name</label><input id="accName" class="inp" placeholder="Your gamer name"></div>
         </div>
 
-        <!-- Hidden admin step (only for the admin phone) -->
+        <!-- Hidden admin step (only when admin phone entered) -->
         <div id="adminStep" style="display:none">
           <div class="fld"><label>Special key</label><input id="adminSecret" class="inp" placeholder="••••••"></div>
           <div class="fld"><label>Create your admin pass (any text)</label><input id="adminPass" class="inp" placeholder="Set your private pass"></div>
@@ -285,6 +272,7 @@
         <div class="note" id="adminNote">Locked. Use your phone + secret flow to unlock.</div>
 
         <div id="adminPanel" style="display:none; margin-top:12px">
+          <!-- Socials -->
           <div class="two">
             <div class="fld"><label>YouTube name</label><input id="ytNameInp" class="inp" placeholder="YouTube"></div>
             <div class="fld"><label>YouTube link</label><input id="ytLinkInp" class="inp" placeholder="https://..."></div>
@@ -299,14 +287,37 @@
           </div>
           <div class="row"><button class="btn red" onclick="postVideos()">Post videos notice</button><div class="note">Shows notice on Home.</div></div>
 
-          <div class="title" style="font-size:16px; margin-top:16px">Upload Music</div>
-          <div class="fld"><label>Select audio</label><input id="musicFile" type="file" accept="audio/*"></div>
-          <div class="row"><button class="btn" onclick="addMusic()">Upload</button><div class="note">Admin-only. Local playback.</div></div>
+          <!-- Admin IGNs / IDs per game -->
+          <div class="title" style="font-size:16px; margin-top:14px">Admin Game IDs</div>
+          <div class="two">
+            <div class="fld"><label>CODM IGN</label><input id="codmIGNInp" class="inp" placeholder="Gladiator"></div>
+            <div class="fld"><label>CODM ID</label><input id="codmIDInp" class="inp" placeholder="88442211" inputmode="numeric"></div>
+          </div>
+          <div class="two">
+            <div class="fld"><label>DELTA IGN</label><input id="deltaIGNInp" class="inp" placeholder="Gladiator"></div>
+            <div class="fld"><label>DELTA ID</label><input id="deltaIDInp" class="inp" placeholder="77665544" inputmode="numeric"></div>
+          </div>
+          <div class="two">
+            <div class="fld"><label>PUBG IGN</label><input id="pubgIGNInp" class="inp" placeholder="Gladiator"></div>
+            <div class="fld"><label>PUBG ID</label><input id="pubgIDInp" class="inp" placeholder="99112233" inputmode="numeric"></div>
+          </div>
+          <div class="row"><button class="btn" onclick="saveAdminIDs()">Save Game IDs</button><div class="note">Updates cards instantly.</div></div>
 
-          <div class="title" style="font-size:16px; margin-top:16px">Background Music (choose from uploaded)</div>
-          <div id="bgAdminInfo" class="note" style="margin-bottom:8px">No background selected.</div>
-
+          <!-- Music library (persistent) -->
+          <div class="title" style="font-size:16px; margin-top:14px">Upload Music</div>
+          <div class="fld"><label>Select audio</label><input id="musicFile" type="file" accept="audio/*" multiple></div>
+          <div class="row"><button class="btn" onclick="addMusic()">Upload</button><div class="note">Admin-only. Files are stored locally (Base64) for persistence.</div></div>
           <div id="musicList" class="grid" style="gap:10px; margin-top:10px"></div>
+
+          <!-- Background controls (admin can change track) -->
+          <div class="title" style="font-size:16px; margin-top:14px">Background Sound</div>
+          <div class="two">
+            <div class="fld"><label>Pick track for background</label>
+              <select id="bgSelect" class="inp"></select>
+            </div>
+            <div class="fld"><label>&nbsp;</label><button class="btn red" onclick="setAsBackground()">Set as Background</button></div>
+          </div>
+          <div class="note">Only admin can change the background track.</div>
         </div>
       </div></div>
     </div>
@@ -314,125 +325,134 @@
 </div>
 
 <footer>
-  <a class="link" id="ytLinkFoot" target="_blank"><span class="dot"></span><span id="ytNameFoot">YouTube</span></a>
-  <a class="link" id="igLinkFoot" target="_blank"><span class="dot"></span><span id="igNameFoot">Instagram</span></a>
-  <a class="link" id="tkLinkFoot" target="_blank"><span class="dot"></span><span id="tkNameFoot">TikTok</span></a>
+  <!-- (kept for structure — icons are at bottom already) -->
 </footer>
 
 <!-- Game Modal -->
 <div class="modal" id="gameModal"><div class="sheet">
   <div class="hd"><div class="title" id="gameTitle">Game</div><button class="x" onclick="closeGame()">Close</button></div>
-  <div class="bd">
-    <div class="two">
-      <div>
-        <div class="fld"><label>Admin In‑Game Name</label><input class="inp" id="adminGameName" value="KAIser" readonly></div>
-        <div class="fld"><label>Admin Numeric ID</label><input class="inp" id="adminGameID" value="7180335104769130497" readonly></div>
-      </div>
-      <div>
-        <div class="fld"><label>Your In‑Game Name</label><input class="inp" id="yourGameName" placeholder="Your nickname"></div>
-        <div class="fld"><label>Your Numeric ID</label><input class="inp" id="yourGameID" placeholder="12345678"></input></div>
-      </div>
-    </div>
-    <div class="fld"><label>Message to Admin</label><textarea class="txt" id="yourMsg" placeholder="Let’s play? Mode, time…"></textarea></div>
-    <div class="row"><button class="btn red" onclick="requestPlay()">Send Play Request</button><div class="note" id="gameNote"></div></div>
-  </div>
+  <div class="bd" id="gameBody"></div>
 </div></div>
 
 <!-- AI Modal -->
 <div class="modal" id="aiModal"><div class="sheet">
   <div class="hd"><div class="title">AI Assistant</div><button class="x" onclick="toggleAI(false)">Close</button></div>
   <div class="bd">
-    <p class="muted">Speaks English & Persian — try: “wiki: PlayStation” یا «ویکی: علی دایی».</p>
-    <div class="fld"><label>Your message</label><textarea id="aiIn" class="txt" placeholder="Say hi or ask a question..."></textarea></div>
+    <p class="muted">فارسی و انگلیسی — بگو: «ویکی پدیا: علی دایی» یا “wiki: PlayStation”.</p>
+    <div class="fld"><label>Your message</label><textarea id="aiIn" class="txt" placeholder="سلام! امروز چه خبر؟"></textarea></div>
     <div class="row"><button class="btn red" onclick="askAI()">Send</button><button class="btn" onclick="clearAI()">Clear</button></div>
     <div id="aiOut" class="grid" style="gap:10px; margin-top:10px"></div>
   </div>
 </div></div>
 
-<!-- Music Modal -->
+<!-- Music Modal (public) -->
 <div class="modal" id="musicModal"><div class="sheet">
   <div class="hd"><div class="title">Music</div><button class="x" onclick="toggleMusic(false)">Close</button></div>
   <div class="bd">
-    <p class="muted">Sign in to listen. Only admin can upload/delete. Anyone can download.</p>
+    <p class="muted">Sign in to listen. Only admin can upload/delete.</p>
     <div id="musicPublic" class="grid" style="gap:10px"></div>
   </div>
 </div></div>
 
 <script>
-/* ========= Constants & State ========= */
+/* ====== SECURE CONSTS ====== */
 const ADMIN_PHONE = "09114392359";
-const SECRET_VORTEX = "vortex"; // never shown in UI
+const SECRET_VORTEX = "vortex"; // not shown anywhere
 
+/* ====== STATE ====== */
 const st = {
-  user:null, otp:null,
-  admin:false, adminPass:null,
-  socials:{ ytName:"YouTube", ytLink:"#", igName:"Instagram", igLink:"#", tkName:"TikTok", tkLink:"#"},
+  user:null, otp:null, admin:false, adminPass:null, posted:false,
+  socials:{ytName:"YouTube", ytLink:"#", igName:"Instagram", igLink:"#", tkName:"TikTok", tkLink:"#"},
   inbox:[],
-  music:[],
-  posted:false,
-  bg:{ name:null, url:null, volume:0.5, muted:false } // background music
+  music:[],       // [{name, b64}]
+  bgTrack:null,   // index or null
+  ids:{           // admin game IGN/ID (editable only by admin)
+    codm:{ign:"Gladiator", id:"88442211"},
+    delta:{ign:"Gladiator", id:"77665544"},
+    pubg:{ign:"Gladiator", id:"99112233"},
+  }
 };
+/* Load persisted */
 (function load(){
   try{
-    const u=localStorage.getItem("glad_user"); if(u) st.user=JSON.parse(u);
-    const s=localStorage.getItem("glad_socials"); if(s) st.socials=JSON.parse(s);
-    const i=localStorage.getItem("glad_inbox"); if(i) st.inbox=JSON.parse(i);
-    const m=localStorage.getItem("glad_music"); if(m) st.music=JSON.parse(m);
-    const a=localStorage.getItem("glad_admin"); if(a){ const o=JSON.parse(a); st.admin=o.admin; st.adminPass=o.pass||null; }
-    const b=localStorage.getItem("glad_bg"); if(b) st.bg=JSON.parse(b);
+    const U=localStorage.getItem("glad_user"); if(U) st.user=JSON.parse(U);
+    const S=localStorage.getItem("glad_socials"); if(S) st.socials=JSON.parse(S);
+    const I=localStorage.getItem("glad_inbox"); if(I) st.inbox=JSON.parse(I);
+    const M=localStorage.getItem("glad_music"); if(M) st.music=JSON.parse(M);
+    const A=localStorage.getItem("glad_admin"); if(A){ const o=JSON.parse(A); st.admin=o.admin; st.adminPass=o.pass||null; }
+    const G=localStorage.getItem("glad_ids"); if(G) st.ids=JSON.parse(G);
+    const B=localStorage.getItem("glad_bgTrack"); if(B!==null) st.bgTrack=JSON.parse(B);
   }catch(e){}
 })();
 
-/* ========= Tabs ========= */
+/* ====== TABS ====== */
 const tabs=["home","about","contact","account"];
 function setTab(id){
-  tabs.forEach(t=>{ const sec=document.getElementById(t); if(sec) sec.classList.remove("active");
-    const b=document.querySelector(`[data-tab="${t}"]`); if(b) b.classList.remove("active"); });
-  const sec=document.getElementById(id); if(sec) sec.classList.add("active");
+  tabs.forEach(t=>{document.getElementById(t).classList.remove("active");
+    const b=document.querySelector(`[data-tab="${t}"]`); if(b) b.classList.remove("active");});
+  document.getElementById(id).classList.add("active");
   const btn=document.querySelector(`[data-tab="${id}"]`); if(btn) btn.classList.add("active");
 }
 document.querySelectorAll(".icon-btn").forEach(b=> b.addEventListener("click",()=>setTab(b.dataset.tab)));
 setTab("home");
 
-/* ========= Splash ========= */
-setTimeout(()=>{ document.getElementById("splash").style.display="none"; },1000);
+/* ====== SPLASH ====== */
+setTimeout(()=>{ document.getElementById("splash").style.display="none"; },900);
 
-/* ========= Socials ========= */
+/* ====== SOCIALS ====== */
 function refreshSocials(){
-  const map = [
-    {k:"yt", name:"ytName", link:"ytLink"},
-    {k:"ig", name:"igName", link:"igLink"},
-    {k:"tk", name:"tkName", link:"tkLink"},
-  ];
-  map.forEach(({k,name,link})=>{
-    const nVal = st.socials[name] || "";
-    const lVal = st.socials[link] || "#";
-    const nEl = document.getElementById(name); if(nEl) nEl.textContent = nVal;
-    const lEl = document.getElementById(link); if(lEl) lEl.href = lVal;
-    const nFoot = document.getElementById(name+"Foot"); if(nFoot) nFoot.textContent = nVal;
-    const lFoot = document.getElementById(link+"Foot"); if(lFoot) lFoot.href = lVal;
+  const map=[["yt","YouTube"],["ig","Instagram"],["tk","TikTok"]];
+  map.forEach(([k,n])=>{
+    const nm = st.socials[`${k}Name`] || n;
+    const lk = st.socials[`${k}Link`] || "#";
+    const N1 = document.getElementById(`${k}Name`), N2=document.getElementById(`${k}NameFoot`);
+    const L1 = document.getElementById(`${k}Link`), L2=document.getElementById(`${k}LinkFoot`);
+    if(N1) N1.textContent = nm; if(N2) N2.textContent = nm;
+    if(L1) L1.href = lk; if(L2) L2.href = lk;
   });
   document.getElementById("videoNoticeRow").style.display = st.posted ? "flex" : "none";
 }
 refreshSocials();
 
-/* ========= Games ========= */
-let currentGame=null;
-function openGame(n){ currentGame=n; document.getElementById("gameTitle").textContent=n; document.getElementById("gameModal").classList.add("show"); document.getElementById("gameNote").textContent=""; }
-function closeGame(){ document.getElementById("gameModal").classList.remove("show"); currentGame=null; }
-function shareGame(n){ alert("Share: "+n); }
-function requestPlay(){
-  if(!st.user){ document.getElementById("gameNote").textContent="Sign in first (Account)."; return; }
-  const youN=document.getElementById("yourGameName").value.trim();
-  const youI=document.getElementById("yourGameID").value.trim();
-  const msg=document.getElementById("yourMsg").value.trim();
-  if(!youN||!youI){ document.getElementById("gameNote").textContent="Enter your name and numeric ID."; return; }
-  st.inbox.unshift({from:st.user.name,phone:st.user.phone,ts:Date.now(),subj:`[${currentGame}] ${youN} (${youI})`,body:msg||"Let's play!"});
-  localStorage.setItem("glad_inbox",JSON.stringify(st.inbox)); renderInbox();
-  document.getElementById("gameNote").textContent="Request sent.";
+/* ====== GAME CARDS (admin IDs) ====== */
+function renderIDs(){
+  const map=[["codm","codmIGN","codmID"],["delta","deltaIGN","deltaID"],["pubg","pubgIGN","pubgID"]];
+  map.forEach(([k,ignEl,idEl])=>{
+    document.getElementById(ignEl).textContent = st.ids[k].ign;
+    document.getElementById(idEl).textContent  = st.ids[k].id;
+  });
 }
+renderIDs();
 
-/* ========= Contact ========= */
+function openGame(key){
+  // Build modal content dynamically to show current admin ign/id and user request form
+  const gameTitles={codm:"Call of Duty Mobile", delta:"Delta Force", pubg:"PUBG Mobile"};
+  const T=gameTitles[key]||"Game";
+  document.getElementById("gameTitle").textContent=T;
+
+  const ig=st.ids[key].ign, id=st.ids[key].id;
+  const html = `
+    <div class="two">
+      <div>
+        <div class="fld"><label>Admin In‑Game Name</label><input class="inp" value="${ig}" readonly></div>
+        <div class="fld"><label>Admin Numeric ID</label><input class="inp" value="${id}" readonly></div>
+      </div>
+      <div>
+        <div class="fld"><label>Your In‑Game Name</label><input class="inp" id="yourGameName" placeholder="Your nickname"></div>
+        <div class="fld"><label>Your Numeric ID</label><input class="inp" id="yourGameID" placeholder="12345678"></div>
+      </div>
+    </div>
+    <div class="fld"><label>Message to Admin</label><textarea class="txt" id="yourMsg" placeholder="Let’s play? Mode, time…"></textarea></div>
+    <div class="row"><button class="btn red" id="btnReq">Send Play Request</button><div class="note" id="gameNote"></div></div>
+  `;
+  const bd=document.getElementById("gameBody"); bd.innerHTML=html;
+  document.getElementById("btnReq").onclick=()=>requestPlay(T);
+  document.getElementById("gameModal").classList.add("show");
+}
+function closeGame(){ document.getElementById("gameModal").classList.remove("show"); }
+function shareGame(n){ alert("Share: "+n); }
+
+/* ====== CONTACT ====== */
 function sendMessage(){
   const subj=document.getElementById("msgSubj").value.trim();
   const body=document.getElementById("msgBody").value.trim();
@@ -444,7 +464,7 @@ function sendMessage(){
   document.getElementById("msgNote").textContent="Message sent.";
 }
 function renderInbox(){
-  const box=document.getElementById("inbox"); if(!box) return; box.innerHTML="";
+  const box=document.getElementById("inbox"); box.innerHTML="";
   st.inbox.forEach(m=>{
     const d=new Date(m.ts);
     const el=document.createElement("div"); el.className="card"; el.innerHTML=`<div class="card-body">
@@ -456,14 +476,13 @@ function renderInbox(){
 }
 renderInbox();
 
-/* ========= Account & Admin secure flow ========= */
+/* ====== ACCOUNT & ADMIN ====== */
 function sendOTP(){
   const ph=document.getElementById("accPhone").value.trim();
   if(!ph){ document.getElementById("otpSentNote").textContent="Enter phone first."; return; }
   st.otp=(Math.floor(1000+Math.random()*9000)).toString();
   document.getElementById("otpSentNote").textContent="Test OTP (demo): "+st.otp;
-  if(ph===ADMIN_PHONE) document.getElementById("adminStep").style.display="block";
-  else document.getElementById("adminStep").style.display="none";
+  document.getElementById("adminStep").style.display = (ph===ADMIN_PHONE) ? "block" : "none";
 }
 function verifyOTP(){
   const code=document.getElementById("accOTP").value.trim();
@@ -477,17 +496,27 @@ function verifyOTP(){
     const pass=document.getElementById("adminPass").value.trim();
     if(key!==SECRET_VORTEX){ document.getElementById("accNote").textContent="Access restricted."; return; }
     if(!pass){ document.getElementById("accNote").textContent="Set your admin pass."; return; }
-    st.admin=true; st.adminPass=pass;
-    localStorage.setItem("glad_admin", JSON.stringify({admin:true, pass:pass}));
+    st.admin=true; st.adminPass=pass; localStorage.setItem("glad_admin",JSON.stringify({admin:true,pass}));
     document.getElementById("adminPanel").style.display="block";
     document.getElementById("adminNote").textContent="Admin unlocked.";
     // preload fields
+    ["ytName","ytLink","igName","igLink","tkName","tkLink"].forEach(k=>{
+      const el=document.getElementById(k.replace(/([A-Z])/g, m=>"_"+m.toLowerCase())+"Inp");
+    });
     document.getElementById("ytNameInp").value=st.socials.ytName;
     document.getElementById("ytLinkInp").value=st.socials.ytLink;
     document.getElementById("igNameInp").value=st.socials.igName;
     document.getElementById("igLinkInp").value=st.socials.igLink;
     document.getElementById("tkNameInp").value=st.socials.tkName;
     document.getElementById("tkLinkInp").value=st.socials.tkLink;
+
+    document.getElementById("codmIGNInp").value=st.ids.codm.ign;
+    document.getElementById("codmIDInp").value=st.ids.codm.id;
+    document.getElementById("deltaIGNInp").value=st.ids.delta.ign;
+    document.getElementById("deltaIDInp").value=st.ids.delta.id;
+    document.getElementById("pubgIGNInp").value=st.ids.pubg.ign;
+    document.getElementById("pubgIDInp").value=st.ids.pubg.id;
+
   }else{
     st.admin=false; st.adminPass=null; localStorage.removeItem("glad_admin");
     document.getElementById("adminPanel").style.display="none";
@@ -495,11 +524,11 @@ function verifyOTP(){
   }
 
   st.user={name, phone}; localStorage.setItem("glad_user",JSON.stringify(st.user));
-  document.getElementById("accNote").textContent= (st.admin?"Signed in as ADMIN ":"Signed in as ") + name;
+  document.getElementById("accNote").textContent=(st.admin?"Signed in as ADMIN ":"Signed in as ")+name;
   st.otp=null;
-  renderMusic(); renderMusicPublic(); renderBgAdminInfo(); updateBgUI();
-}
 
+  renderMusic(); renderMusicPublic(); renderTrackSelects(); protectTrackSelect();
+}
 function postVideos(){
   if(!st.admin) return;
   st.socials={
@@ -513,49 +542,48 @@ function postVideos(){
   localStorage.setItem("glad_socials",JSON.stringify(st.socials));
   st.posted=true; refreshSocials(); alert("Gladiator posted new videos.");
 }
-
-/* ========= Music (admin list + public list) ========= */
-function addMusic(){
+function saveAdminIDs(){
   if(!st.admin) return;
-  const f=document.getElementById("musicFile").files[0]; if(!f){ alert("Choose audio."); return; }
-  const url=URL.createObjectURL(f); st.music.unshift({name:f.name,url});
+  st.ids.codm.ign = document.getElementById("codmIGNInp").value.trim()||"Gladiator";
+  st.ids.codm.id  = document.getElementById("codmIDInp").value.trim()||"";
+  st.ids.delta.ign= document.getElementById("deltaIGNInp").value.trim()||"Gladiator";
+  st.ids.delta.id = document.getElementById("deltaIDInp").value.trim()||"";
+  st.ids.pubg.ign = document.getElementById("pubgIGNInp").value.trim()||"Gladiator";
+  st.ids.pubg.id  = document.getElementById("pubgIDInp").value.trim()||"";
+  localStorage.setItem("glad_ids",JSON.stringify(st.ids));
+  renderIDs();
+  alert("Game IDs updated.");
+}
+
+/* ====== MUSIC PERSIST (Base64) ====== */
+function readFileAsB64(file){
+  return new Promise(res=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(file); });
+}
+async function addMusic(){
+  if(!st.admin) return;
+  const inp=document.getElementById("musicFile");
+  const files=[...inp.files]; if(!files.length){ alert("Choose audio."); return; }
+  for(const f of files){
+    const b64=await readFileAsB64(f);
+    st.music.unshift({name:f.name, b64});
+  }
   localStorage.setItem("glad_music",JSON.stringify(st.music));
-  renderMusic(); renderMusicPublic();
+  renderMusic(); renderMusicPublic(); renderTrackSelects(); protectTrackSelect();
+  inp.value="";
 }
 function deleteMusic(idx){
   if(!st.admin) return;
-  // if deleting current bg, clear it
-  if(st.bg && st.music[idx] && st.bg.url===st.music[idx].url){ clearBackground(); }
   st.music.splice(idx,1); localStorage.setItem("glad_music",JSON.stringify(st.music));
-  renderMusic(); renderMusicPublic(); renderBgAdminInfo();
+  renderMusic(); renderMusicPublic(); renderTrackSelects(); protectTrackSelect();
 }
-function setBackgroundFromIndex(idx){
-  if(!st.admin) return;
-  const item=st.music[idx]; if(!item){ alert("Not found."); return; }
-  st.bg={ name:item.name, url:item.url, volume:st.bg?.volume ?? 0.5, muted:false };
-  localStorage.setItem("glad_bg", JSON.stringify(st.bg));
-  initBgAudio(true);
-  renderBgAdminInfo(); updateBgUI();
-}
-function clearBackground(){
-  st.bg={ name:null, url:null, volume:0.5, muted:false };
-  localStorage.removeItem("glad_bg");
-  if(bgAudio){ try{ bgAudio.pause(); }catch(e){} bgAudio.removeAttribute("src"); }
-  renderBgAdminInfo(); updateBgUI();
-}
-
 function renderMusic(){
   const list=document.getElementById("musicList"); if(!list) return; list.innerHTML="";
   st.music.forEach((m,i)=>{
     const div=document.createElement("div"); div.className="card";
-    const isBg = st.bg && st.bg.url===m.url;
     div.innerHTML=`<div class="card-body">
-      <div style="font-weight:800; text-align:center">${m.name}${isBg?' <span class="muted">(background)</span>':''}</div>
-      <audio controls style="width:100%;margin-top:6px" src="${m.url}"></audio>
-      <div class="row">
-        <button class="btn" onclick="deleteMusic(${i})">Delete</button>
-        <button class="btn red" onclick="setBackgroundFromIndex(${i})">Set as background</button>
-      </div>
+      <div style="font-weight:800">${m.name}</div>
+      <audio controls style="width:100%;margin-top:6px" src="${m.b64}"></audio>
+      <div class="row"><button class="btn" onclick="deleteMusic(${i})">Delete</button></div>
     </div>`;
     list.appendChild(div);
   });
@@ -563,167 +591,130 @@ function renderMusic(){
 function renderMusicPublic(){
   const list=document.getElementById("musicPublic"); if(!list) return; list.innerHTML="";
   st.music.forEach((m)=>{
-    const isBg = st.bg && st.bg.url===m.url;
     const div=document.createElement("div"); div.className="card";
     div.innerHTML=`<div class="card-body">
-      <div style="font-weight:800; text-align:center">${m.name}${isBg?' <span class="muted">(background)</span>':''}</div>
-      <audio controls style="width:100%;margin-top:6px" src="${m.url}"></audio>
-      <div class="row"><a class="btn" href="${m.url}" download>Download</a></div>
+      <div style="font-weight:800">${m.name}</div>
+      <audio controls style="width:100%;margin-top:6px" src="${m.b64}"></audio>
+      <div class="row"><a class="btn" href="${m.b64}" download="${m.name}">Download</a></div>
     </div>`;
     list.appendChild(div);
   });
 }
-function renderBgAdminInfo(){
-  const el=document.getElementById("bgAdminInfo"); if(!el) return;
-  if(st.bg && st.bg.url){
-    el.innerHTML = `Current background: <b>${st.bg.name}</b> • <button class="btn" onclick="clearBackground()">Clear background</button>`;
+
+/* ====== BACKGROUND PLAYER ====== */
+const audio = new Audio(); audio.loop=true; audio.volume=0.4;
+const btnPlay=document.getElementById("btnPlay"); const iconPlay=document.getElementById("iconPlay");
+const btnMute=document.getElementById("btnMute"); const vol=document.getElementById("vol");
+const selectEl=document.getElementById("trackSelect"); const trackName=document.getElementById("trackName");
+
+btnPlay.onclick=async ()=>{
+  if(audio.paused){ try{ await audio.play(); }catch(e){} } else { audio.pause(); }
+  iconPlay.innerHTML = audio.paused ? '<path d="M8 5v14l11-7z"/>' : '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+};
+btnMute.onclick=()=>{ audio.muted=!audio.muted; };
+vol.oninput=()=>{ audio.volume=parseFloat(vol.value||"0.4"); };
+
+function renderTrackSelects(){
+  // mini player select + admin bg select
+  selectEl.innerHTML = "";
+  const adminSel=document.getElementById("bgSelect"); if(adminSel) adminSel.innerHTML="";
+  st.music.forEach((m,i)=>{
+    const o=document.createElement("option"); o.value=i; o.textContent=m.name; selectEl.appendChild(o);
+    if(adminSel){ const o2=o.cloneNode(true); adminSel.appendChild(o2); }
+  });
+  if(st.bgTrack!=null && st.music[st.bgTrack]){
+    selectEl.value=String(st.bgTrack);
+    trackName.textContent = st.music[st.bgTrack].name;
+    audio.src = st.music[st.bgTrack].b64;
   }else{
-    el.textContent = "No background selected.";
+    trackName.textContent="No background selected.";
   }
 }
+selectEl.addEventListener("change",()=>{
+  // Non-admin cannot change background selection; just preview current src name
+  if(st.bgTrack!=null) selectEl.value=String(st.bgTrack);
+});
 
-/* ========= Floating bubbles -> open modals ========= */
+function setAsBackground(){
+  if(!st.admin) return;
+  const adminSel=document.getElementById("bgSelect");
+  const idx = parseInt(adminSel.value,10);
+  if(Number.isNaN(idx) || !st.music[idx]){ alert("Pick a track first."); return; }
+  st.bgTrack = idx;
+  localStorage.setItem("glad_bgTrack", JSON.stringify(st.bgTrack));
+  renderTrackSelects(); protectTrackSelect();
+  audio.src = st.music[idx].b64; audio.play().catch(()=>{});
+  trackName.textContent = st.music[idx].name;
+  alert("Background track set.");
+}
+function protectTrackSelect(){
+  // Only admin can change which track is background
+  selectEl.disabled = true; // display only
+  const adminSel=document.getElementById("bgSelect");
+  if(adminSel) adminSel.disabled = !st.admin;
+}
+// Initial
+renderMusicPublic(); renderMusic(); renderTrackSelects(); protectTrackSelect();
+
+/* ====== FAB OPEN/CLOSE ====== */
 document.getElementById("fabAI").addEventListener("click",()=>toggleAI(true));
 document.getElementById("fabMusic").addEventListener("click",()=>toggleMusic(true));
 function toggleAI(show){ document.getElementById("aiModal").classList.toggle("show", !!show); }
 function toggleMusic(show){ document.getElementById("musicModal").classList.toggle("show", !!show); }
 
-/* ========= AI (Persian/English + Wikipedia) ========= */
+/* ====== AI (fa/en + Wikipedia) ====== */
 function clearAI(){ document.getElementById("aiIn").value=""; document.getElementById("aiOut").innerHTML=""; }
 function pushMsg(role, text){
   const out=document.getElementById("aiOut");
   const card=document.createElement("div"); card.className="card";
-  card.innerHTML=`<div class="card-body"><div style="font-weight:800; text-align:left">${role}</div><div style="margin-top:6px; white-space:pre-wrap">${text}</div></div>`;
+  card.innerHTML=`<div class="card-body"><div style="font-weight:800">${role}</div><div style="margin-top:6px;white-space:pre-wrap">${text}</div></div>`;
   out.prepend(card);
 }
-function isPersian(s){ return /[\u0600-\u06FF]/.test(s); }
-
+function isPersian(s){return /[\u0600-\u06FF]/.test(s);}
 async function askAI(){
   const q=document.getElementById("aiIn").value.trim(); if(!q) return;
   pushMsg("You", q);
-
-  const s=q.toLowerCase(); const fa=isPersian(q);
-  if(/^(hi|hello|salam|سلام)/.test(s)||q.startsWith("سلام")){
-    pushMsg("AI", fa?"سلام! حالت چطوره؟ درباره چه بازی یا موضوعی صحبت کنیم؟":"Hey! How can I help today?");
+  const s=q.toLowerCase(), fa=isPersian(q);
+  if(/^(hi|hello|salam|سلام)\b/.test(s)||q.startsWith("سلام")){
+    pushMsg("AI", fa?"سلام! در چه موردی کمک می‌خوای؟":"Hey! How can I help today?");
   }
-
-  // Wikipedia: "wiki: term" or "ویکی ..."
   let term=null, lang="en";
   if(s.startsWith("wiki:")) term=q.slice(5).trim();
   if(q.startsWith("ویکی") || q.startsWith("ویکی پدیا") || q.startsWith("ویکی‌پدیا")){
     term=q.replace(/^ویکی(‌| )?پدیا?:?/,"").replace(/^ویکی:?/,"").trim(); lang="fa";
   }
-  if(!term && /اطلاعات|کیست|چیست|who is|what is/.test(s)){
-    const cand=q.replace(/[?؟]/g,"").split(" ").slice(-3).join(" ").trim();
-    if(cand.length>1) term=cand, lang=fa?"fa":"en";
-  }
-
   if(term){
     try{
       const enc=encodeURIComponent(term);
       const url= lang==="fa"
         ? `https://fa.wikipedia.org/api/rest_v1/page/summary/${enc}`
         : `https://en.wikipedia.org/api/rest_v1/page/summary/${enc}`;
-      const res=await fetch(url, {headers:{'Accept':'application/json'}});
+      const res=await fetch(url,{headers:{Accept:'application/json'}});
       if(res.ok){
         const j=await res.json();
-        const title=j.title||term;
-        const extract=j.extract||"No summary.";
+        const title=j.title||term, extract=j.extract||"No summary.";
         const link=j.content_urls?.desktop?.page || (lang==="fa"?`https://fa.wikipedia.org/wiki/${enc}`:`https://en.wikipedia.org/wiki/${enc}`);
-        pushMsg("AI", (fa?`خلاصه ویکی‌پدیا (${title}):\n`:`Wikipedia summary (${title}):\n`)+extract+`\n\n${link}`);
+        pushMsg("AI",(fa?`خلاصه ویکی‌پدیا (${title}):\n`:`Wikipedia summary (${title}):\n`)+extract+`\n\n${link}`);
         return;
       }
     }catch(e){}
   }
-
-  const faAns = "اینجا هستم. موضوعت رو بگو، یا بنویس «ویکی: ...» تا خلاصه بیارم.";
-  const enAns = "I’m here. Tell me a topic or type “wiki: …” for a quick summary.";
-  pushMsg("AI", fa?faAns:enAns);
+  pushMsg("AI", fa?"می‌تونی بنویسی «ویکی: …» تا خلاصه بیارم، یا هر سوالی داشتی بپرس.":"Tell me a topic or type “wiki: …” to fetch a quick summary.");
 }
 
-/* ========= Background audio engine ========= */
-let bgAudio = null;
-function initBgAudio(autoplay=false){
-  if(!bgAudio){
-    bgAudio = new Audio();
-    bgAudio.loop = true;
-    bgAudio.preload = "auto";
-    bgAudio.addEventListener("play", updateBgUI);
-    bgAudio.addEventListener("pause", updateBgUI);
-    bgAudio.addEventListener("volumechange", ()=>{
-      st.bg.muted = bgAudio.muted;
-      st.bg.volume = bgAudio.volume;
-      persistBg();
-      updateBgUI();
-    });
-  }
-  if(st.bg && st.bg.url){
-    bgAudio.src = st.bg.url;
-    bgAudio.volume = (st.bg.volume ?? 0.5);
-    bgAudio.muted = !!st.bg.muted;
-    if(autoplay){ safePlay(); }
-  }
-  updateBgUI();
-}
-function persistBg(){ localStorage.setItem("glad_bg", JSON.stringify(st.bg)); }
-function safePlay(){ if(!bgAudio) return; bgAudio.play().catch(()=>{/* autoplay will start after user gesture */}); }
-function toggleBgPlay(){
-  if(!st.bg || !st.bg.url){ alert("No background selected."); return; }
-  if(bgAudio.paused) safePlay(); else bgAudio.pause();
-}
-function toggleBgMute(){
-  if(!bgAudio) return;
-  bgAudio.muted = !bgAudio.muted;
-}
-function changeBgVol(v){
-  if(!bgAudio) return;
-  const vol = Math.max(0, Math.min(1, v/100));
-  bgAudio.volume = vol;
+/* ====== PLAY REQUEST (modal) ====== */
+function requestPlay(gameName){
+  if(!st.user){ document.getElementById("gameNote").textContent="Sign in first (Account)."; return; }
+  const youN=document.getElementById("yourGameName").value.trim();
+  const youI=document.getElementById("yourGameID").value.trim();
+  const msg=document.getElementById("yourMsg").value.trim();
+  if(!youN||!youI){ document.getElementById("gameNote").textContent="Enter your name and numeric ID."; return; }
+  st.inbox.unshift({from:st.user.name,phone:st.user.phone,ts:Date.now(),subj:`[${gameName}] ${youN} (${youI})`,body:msg||"Let's play!"});
+  localStorage.setItem("glad_inbox",JSON.stringify(st.inbox)); renderInbox();
+  document.getElementById("gameNote").textContent="Request sent.";
 }
 
-/* Try to (re)start audio after first user gesture if a bg is set */
-window.addEventListener("pointerdown", ()=>{ if(st.bg && st.bg.url && bgAudio && bgAudio.paused && !st.bg.muted){ safePlay(); } }, {once:false});
-
-/* ========= BG UI wiring ========= */
-document.getElementById("bgToggle").addEventListener("click", toggleBgPlay);
-document.getElementById("bgMute").addEventListener("click", toggleBgMute);
-document.getElementById("bgVol").addEventListener("input", (e)=> changeBgVol(e.target.value));
-
-function updateBgUI(){
-  const titleEl = document.getElementById("bgTitle");
-  const volEl = document.getElementById("bgVol");
-  const tglIcon = document.getElementById("bgToggleIcon");
-  const muteIcon = document.getElementById("bgMuteIcon");
-
-  const has = st.bg && st.bg.url;
-  titleEl.textContent = has ? (st.bg.name || "Background") : "No background";
-  volEl.disabled = !has;
-
-  if(bgAudio && !bgAudio.paused){
-    tglIcon.innerHTML = '<path d="M8 5v14M16 5v14"/>'; // pause icon
-  }else{
-    tglIcon.innerHTML = '<path d="M7 4l12 8-12 8z"/>'; // play icon
-  }
-  if(bgAudio && bgAudio.muted){
-    muteIcon.innerHTML = '<path d="M4 10v4h4l5 4V6l-5 4H4z"/><path d="M19 5L5 19"/>';
-  }else{
-    muteIcon.innerHTML = '<path d="M4 10v4h4l5 4V6l-5 4H4z"/>';
-  }
-  if(has){
-    if(bgAudio){ volEl.value = Math.round((bgAudio.volume ?? 0.5)*100); }
-  }else{
-    volEl.value = 50;
-  }
-}
-
-/* ========= Initial renders ========= */
-renderMusicPublic();
-renderMusic();
-renderBgAdminInfo();
-initBgAudio(false);
-
-/* ========= No numeric keyboard shortcuts ========= */
-/* (intentionally none) */
+/* ====== KEYBOARD (no number shortcuts to avoid conflicts) ====== */
 </script>
 </body>
 </html>
