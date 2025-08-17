@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gladiator Crypto</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: black;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* 🔹 Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: linear-gradient(to right, #000428, #004e92);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header h1 {
+      margin: 0;
+      color: cyan;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav button {
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    /* 🔹 Bubbles animation */
+    .bubble {
+      position: absolute;
+      bottom: -100px;
+      background: rgba(0, 162, 255, 0.4);
+      border-radius: 50%;
+      animation: rise 15s infinite ease-in;
+    }
+
+    @keyframes rise {
+      from { transform: translateY(0) scale(1); opacity: 1; }
+      to { transform: translateY(-2500px) scale(0.5); opacity: 0; }
+    }
+
+    /* 🔹 Main Content */
+    main {
+      padding: 40px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #00ffff;
+    }
+
+    table {
+      width: 80%;
+      margin: auto;
+      border-collapse: collapse;
+      background: #111;
+    }
+
+    table th, table td {
+      border: 1px solid #00ffff;
+      padding: 10px;
+    }
+
+    .green { color: lime; }
+    .red { color: red; }
+
+    /* 🔹 Registration form */
+    .register {
+      margin-top: 40px;
+      background: #111;
+      display: inline-block;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .register input {
+      margin: 5px 0;
+      padding: 10px;
+      width: 200px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .register button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: cyan;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔹 Bubbles -->
+  <div class="bubble" style="width:80px; height:80px; left:10%; animation-duration:18s;"></div>
+  <div class="bubble" style="width:50px; height:50px; left:40%; animation-duration:12s;"></div>
+  <div class="bubble" style="width:100px; height:100px; left:70%; animation-duration:20s;"></div>
+
+  <!-- 🔹 Header -->
+  <header>
+    <h1>Gladiator Crypto</h1>
+    <nav>
+      <button>🏠</button>
+      <button>🎧</button>
+      <button>👤</button>
+    </nav>
+  </header>
+
+  <!-- 🔹 Main -->
+  <main>
+    <h2>Live Crypto Prices (Demo)</h2>
+    <table>
+      <tr><th>Currency</th><th>Price (USD)</th><th>Change</th></tr>
+      <tr><td>Bitcoin</td><td>27,450</td><td class="green">+2.5%</td></tr>
+      <tr><td>Ethereum</td><td>1,750</td><td class="red">-1.3%</td></tr>
+      <tr><td>BNB</td><td>315</td><td class="green">+0.8%</td></tr>
+    </table>
+
+    <!-- 🔹 Register -->
+    <div class="register">
+      <h3>Register</h3>
+      <input type="text" placeholder="Phone number"><br>
+      <input type="text" placeholder="Username"><br>
+      <input type="password" placeholder="Password"><br>
+      <button>Sign Up</button>
+    </div>
+  </main>
+
+</body>
+</html>
